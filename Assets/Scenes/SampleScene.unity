@@ -367,7 +367,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 3
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
@@ -430,6 +430,7 @@ MonoBehaviour:
   characterController: {fileID: 1444521458}
   maxSpeed: 10
   acceleration: 0.05
+  animator: {fileID: 0}
 --- !u!95 &1444521457
 Animator:
   serializedVersion: 3
@@ -461,13 +462,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2668685384ef18a479a1235de0bb6cd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_JumpForce: 400
+  m_JumpForce: 700
   m_CrouchSpeed: 0.36
   m_MovementSmoothing: 0.05
-  m_AirControl: 0
+  m_AirControl: 1
   m_WhatIsGround:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 4294967295
   m_GroundCheck: {fileID: 62098598}
   m_CeilingCheck: {fileID: 144914363}
   m_CrouchDisableCollider: {fileID: 1444521455}
