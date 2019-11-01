@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerControls : MonoBehaviour
 {
+    public CharacterController2D characterController;
     Rigidbody2D rigidbody2d;
     float currentSpeed;
     public float maxSpeed;
@@ -25,5 +26,10 @@ public class PlayerControls : MonoBehaviour
             currentSpeed = maxSpeed;
         }
         rigidbody2d.velocity = new Vector2(currentSpeed, rigidbody2d.velocity.y);
+    }
+
+    private void FixedUpdate()
+    {
+        characterController.Move(rigidbody2d.velocity.x * Time.fixedDeltaTime, false, false);
     }
 }
