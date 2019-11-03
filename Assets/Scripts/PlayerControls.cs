@@ -10,6 +10,7 @@ public class PlayerControls : MonoBehaviour
     public float maxSpeed;
     public float acceleration;
     bool jump = false;
+    bool crouch = false;
     public Animator animator;
 
     // Start is called before the first frame update
@@ -36,6 +37,18 @@ public class PlayerControls : MonoBehaviour
             jump = true;
             animator.SetBool("Jump", true);
         }
+
+        if (Input.GetButtonDown("Crouch") == true)
+        {
+            crouch = true;
+            animator.SetBool("Crouch", true);
+        }
+        else if (Input.GetButtonUp("Crouch") == true)
+        {
+            crouch = false;
+            animator.SetBool("Crouch", false);
+        }
+
         rigidbody2d.velocity = new Vector2(currentSpeed, rigidbody2d.velocity.y);
     }
 
@@ -46,9 +59,10 @@ public class PlayerControls : MonoBehaviour
 
     private void FixedUpdate()
     {
-        characterController.Move(rigidbody2d.velocity.x * Time.fixedDeltaTime, false, jump);
+        characterController.Move(rigidbody2d.velocity.x * Time.fixedDeltaTime, crouch, jump);
         //After a successful jump we need to set jump attribute to the default value = false;
         jump = false;
+        crouch = false;
     }
 
     IEnumerator Countdown()
