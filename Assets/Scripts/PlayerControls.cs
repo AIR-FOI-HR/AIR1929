@@ -9,6 +9,7 @@ public class PlayerControls : MonoBehaviour
     float currentSpeed;
     public float maxSpeed;
     public float acceleration;
+    float currentAcceleration;
     bool jump = false;
     bool crouch = false;
     public Animator animator;
@@ -17,7 +18,7 @@ public class PlayerControls : MonoBehaviour
     void Start()
     {
         currentSpeed = 0;
-        acceleration = 0;
+        currentAcceleration = 0;
         rigidbody2d = GetComponent<Rigidbody2D>();
         StartCoroutine(Countdown());
     }
@@ -25,7 +26,7 @@ public class PlayerControls : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        currentSpeed += acceleration;
+        currentSpeed += currentAcceleration;
         if (currentSpeed >= maxSpeed)
         {
             currentSpeed = maxSpeed;
@@ -41,12 +42,12 @@ public class PlayerControls : MonoBehaviour
         if (Input.GetButtonDown("Crouch") == true)
         {
             crouch = true;
-            animator.SetBool("Crouch", true);
+            //animator.setbool("crouch", true);
         }
         else if (Input.GetButtonUp("Crouch") == true)
         {
             crouch = false;
-            animator.SetBool("Crouch", false);
+            //animator.SetBool("Crouch", false);
         }
 
         rigidbody2d.velocity = new Vector2(currentSpeed, rigidbody2d.velocity.y);
@@ -57,12 +58,16 @@ public class PlayerControls : MonoBehaviour
         animator.SetBool("Jump", false);
     }
 
+    public void OnCrouching(bool isCrouching)
+    {
+        animator.SetBool("Crouch", isCrouching);
+    }
+
     private void FixedUpdate()
     {
         characterController.Move(rigidbody2d.velocity.x * Time.fixedDeltaTime, crouch, jump);
         //After a successful jump we need to set jump attribute to the default value = false;
         jump = false;
-        crouch = false;
     }
 
     IEnumerator Countdown()
@@ -75,6 +80,6 @@ public class PlayerControls : MonoBehaviour
         Debug.Log("1");
         yield return new WaitForSeconds(1);
         Debug.Log("Go!");
-        acceleration = 0.1f;
+        currentAcceleration = acceleration;
     }
 }
