@@ -6,35 +6,40 @@ using UnityEngine.UI;
 public class Settings : MonoBehaviour
 {
     public Slider volumeSlider;
-    public GameObject mute, unmute, mainMenu;
+    public GameObject mute, unmute;
 
     void Start()
     {
         volumeSlider.value = volumeSlider.maxValue;
-        mute.SetActive(false);  
-        
-    } 
+        mute.SetActive(false);
+        unmute.SetActive(true);
+    }
 
     public void VolumeChanged(float value)
     {
-        if(volumeSlider.value > 0)
-        {
-            mute.SetActive(false);
-            unmute.SetActive(true);
-        } else
+        if (volumeSlider.value == 0)
         {
             mute.SetActive(true);
             unmute.SetActive(false);
         }
-    }
-    public void Mute(bool value)
-    {
-        if(value)
+        else
         {
-            volumeSlider.value = 0;
-        } else
-        {
-            volumeSlider.value = 1;
+            mute.SetActive(false);
+            unmute.SetActive(true);
         }
+    }
+
+    public void Mute()
+    {
+        mute.SetActive(true);
+        unmute.SetActive(false);
+        volumeSlider.value = 0;
+    }
+
+    public void Unmute()
+    {
+        mute.SetActive(false);
+        unmute.SetActive(true);
+        volumeSlider.value = 1;
     }
 }
