@@ -52,7 +52,6 @@ public class PlayerControls : MonoBehaviour
 
         rigidbody2d.velocity = new Vector2(currentSpeed, rigidbody2d.velocity.y);
     }
-
     public void OnLanding()
     {
         animator.SetBool("Jump", false);
