@@ -6,7 +6,7 @@ using UnityEngine;
 public class PowerUps : MonoBehaviour
 {
     private Inventory inventory;
-
+    public GameObject itemButton;
 
     private void Start()
     {
@@ -33,10 +33,16 @@ public class PowerUps : MonoBehaviour
                 {
                     inventory.puno[i] = true;
                     Debug.Log("Dodano u inventory");
+                    Instantiate(itemButton, inventory.slots[i].transform,false);
+                    Destroy(gameObject);
                 }
             }
         }
-        Debug.Log("Pokupljeno");
-        Destroy(gameObject);
+        if (gameObject.name == "powerup")
+        {
+            Debug.Log("Pokupljeno");
+            Destroy(gameObject);
+        }
+        
     }
 }
