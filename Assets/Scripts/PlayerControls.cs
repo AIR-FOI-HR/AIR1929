@@ -15,11 +15,12 @@ public class PlayerControls : MonoBehaviour
     bool jump = false;
     bool crouch = false;
     public Animator animator;
+    bool raceEnded = false;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+
         currentSpeed = 0;
         currentAcceleration = 0;
         rigidbody2d = GetComponent<Rigidbody2D>();
@@ -29,32 +30,40 @@ public class PlayerControls : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
-        currentSpeed += currentAcceleration;
-        if (currentSpeed >= maxSpeed)
+        if (raceEnded)
         {
-            currentSpeed = maxSpeed;
+            SlowDown();
+            rigidbody2d.velocity = new Vector2(currentSpeed, rigidbody2d.velocity.y);
         }
-        animator.SetFloat("Speed", currentSpeed);
+        else
+        {
+            currentSpeed += currentAcceleration;
+            if (currentSpeed >= maxSpeed)
+            {
+                currentSpeed = maxSpeed;
+            }
+            animator.SetFloat("Speed", currentSpeed);
 
-        if (Input.GetButtonDown("Jump") == true)
-        {
-            jump = true;
-            animator.SetBool("Jump", true);
-        }
+            if (Input.GetButtonDown("Jump") == true)
+            {
+                jump = true;
+                animator.SetBool("Jump", true);
+            }
 
-        if (Input.GetButtonDown("Crouch") == true)
-        {
-            crouch = true;
-            //animator.setbool("crouch", true);
-        }
-        else if (Input.GetButtonUp("Crouch") == true)
-        {
-            crouch = false;
-            //animator.SetBool("Crouch", false);
-        }
+            if (Input.GetButtonDown("Crouch") == true)
+            {
+                crouch = true;
+                //animator.setbool("crouch", true);
+            }
+            else if (Input.GetButtonUp("Crouch") == true)
+            {
+                crouch = false;
+                //animator.SetBool("Crouch", false);
+            }
 
-        rigidbody2d.velocity = new Vector2(currentSpeed, rigidbody2d.velocity.y);
+            rigidbody2d.velocity = new Vector2(currentSpeed, rigidbody2d.velocity.y);
+
+        }
     }
     public void OnLanding()
     {
@@ -71,6 +80,28 @@ public class PlayerControls : MonoBehaviour
         characterController.Move(rigidbody2d.velocity.x * Time.fixedDeltaTime, crouch, jump);
         //After a successful jump we need to set jump attribute to the default value = false;
         jump = false;
+    }
+
+    void SlowDown()
+    {
+        currentAcceleration = -0.1f;
+        currentSpeed += currentAcceleration;
+        if (currentSpeed <= 0)
+        {
+            currentSpeed = 0;
+            animator.SetFloat("Speed", currentSpeed);
+        }
+    }
+
+
+
+    void OnTriggerEnter2D(Collider2D collider)
+    {
+
+        if (collider.gameObject.tag == "FlagController")
+        {
+            raceEnded = true;
+        }
     }
 
     IEnumerator Countdown()
