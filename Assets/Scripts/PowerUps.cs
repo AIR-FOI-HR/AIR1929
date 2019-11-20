@@ -10,7 +10,7 @@ public class PowerUps : MonoBehaviour
 
     private void Start()
     {
-        inventory = GameObject.FindGameObjectWithTag("Player").GetComponent<Inventory>();
+        inventory = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<Inventory>();
     }
 
     void OnTriggerEnter2D (Collider2D other)
