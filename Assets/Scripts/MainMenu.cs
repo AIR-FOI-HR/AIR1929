@@ -20,11 +20,13 @@ public class MainMenu : MonoBehaviour
 
     public void onSettings()
     {
+        Debug.Log("kliknut settings");
         settings.SetActive(true);
         mainMenu.SetActive(false);
     }
     public void onBack()
     {
+        Debug.Log("kliknut back");
         mainMenu.SetActive(true);
         settings.SetActive(false);
     }
