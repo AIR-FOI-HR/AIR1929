@@ -8,8 +8,10 @@ using Debug = UnityEngine.Debug;
 
 public class FlagController : MonoBehaviour
 {
+    public GameObject StartGamePanel;
     public GameObject EndRacePanel;
     private Stopwatch runTime = new Stopwatch();
+    public Text CountdownText;
     public Text RunTimeInformationText;
     bool FirstCollision = false;
 
@@ -56,7 +58,16 @@ public class FlagController : MonoBehaviour
 
     IEnumerator Countdown()
     {
-        yield return new WaitForSeconds(4);
+        CountdownText.text = "";
+        yield return new WaitForSeconds(1);
+        CountdownText.text = "3";
+        yield return new WaitForSeconds(1);
+        CountdownText.text = "2";
+        yield return new WaitForSeconds(1);
+        CountdownText.text = "1";
+        yield return new WaitForSeconds(1);
+        CountdownText.text = "";
+        StartGamePanel.SetActive(false);
         runTime.Start();
     }
 }
