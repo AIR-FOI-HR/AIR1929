@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
+using Debug = UnityEngine.Debug;
 
 public class PlayerControls : MonoBehaviour
 {
@@ -17,6 +19,7 @@ public class PlayerControls : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        
         currentSpeed = 0;
         currentAcceleration = 0;
         rigidbody2d = GetComponent<Rigidbody2D>();
@@ -26,6 +29,7 @@ public class PlayerControls : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
         currentSpeed += currentAcceleration;
         if (currentSpeed >= maxSpeed)
         {
@@ -79,6 +83,8 @@ public class PlayerControls : MonoBehaviour
         Debug.Log("1");
         yield return new WaitForSeconds(1);
         Debug.Log("Go!");
+
+
         currentAcceleration = acceleration;
     }
 }
