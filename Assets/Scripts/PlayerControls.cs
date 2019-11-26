@@ -44,7 +44,7 @@ public class PlayerControls : MonoBehaviour
             }
             animator.SetFloat("Speed", currentSpeed);
 
-            if (Input.GetButtonDown("Jump") == true)
+            if (Input.GetMouseButton(0) == true)
             {
                 jump = true;
                 animator.SetBool("Jump", true);
@@ -53,7 +53,6 @@ public class PlayerControls : MonoBehaviour
             if (Input.GetButtonDown("Crouch") == true)
             {
                 crouch = true;
-                //animator.setbool("crouch", true);
             }
             else if (Input.GetButtonUp("Crouch") == true)
             {
