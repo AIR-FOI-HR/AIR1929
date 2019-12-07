@@ -48,22 +48,23 @@ public class PlayerControls : MonoBehaviour
             animator.SetFloat("Speed", currentSpeed);
 
             SwipeCheck();
-            //if (Input.GetButtonDown("Jump") == true)
-            //{
-            //    jump = true;
-            //    animator.SetBool("Jump", true);
-            //}
 
-            //if (Input.GetButtonDown("Crouch") == true)
-            //{
-            //    crouch = true;
-            //    //animator.setbool("crouch", true);
-            //}
-            //else if (Input.GetButtonUp("Crouch") == true)
-            //{
-            //    crouch = false;
-            //    //animator.SetBool("Crouch", false);
-            //}
+            if (Input.GetButtonDown("Jump") == true)
+            {
+                jump = true;
+                animator.SetBool("Jump", true);
+            }
+
+            if (Input.GetButtonDown("Crouch") == true)
+            {
+                crouch = true;
+                //animator.setbool("crouch", true);
+            }
+            else if (Input.GetButtonUp("Crouch") == true)
+            {
+                crouch = false;
+                //animator.SetBool("Crouch", false);
+            }
 
             rigidbody2d.velocity = new Vector2(currentSpeed, rigidbody2d.velocity.y);
 
