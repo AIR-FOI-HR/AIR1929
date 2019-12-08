@@ -9,17 +9,19 @@ public class PlayerControls : MonoBehaviour
 {
     public CharacterController2D characterController;
     Rigidbody2D rigidbody2d;
-    float currentSpeed;
-    public float maxSpeed;
-    public float acceleration;
-    float currentAcceleration;
+    public Animator animator;
+    private Vector2 startTouchPosition, endTouchPosition;
+
+    public float maxSpeed, acceleration, currentAcceleration, currentSpeed;
+
     bool jump = false;
     bool crouch = false;
-    public Animator animator;
     bool raceEnded = false;
-    private float jumpForce = 1800f;
 
-   
+
+
+
+
 
     // Start is called before the first frame update
     void Start()
@@ -47,8 +49,10 @@ public class PlayerControls : MonoBehaviour
             }
             animator.SetFloat("Speed", currentSpeed);
 
+            //For Android
             SwipeCheck();
 
+            //For Computer
             if (Input.GetButtonDown("Jump") == true)
             {
                 jump = true;
@@ -57,13 +61,7 @@ public class PlayerControls : MonoBehaviour
 
             if (Input.GetButtonDown("Crouch") == true)
             {
-                crouch = true;
-                //animator.setbool("crouch", true);
-            }
-            else if (Input.GetButtonUp("Crouch") == true)
-            {
-                crouch = false;
-                //animator.SetBool("Crouch", false);
+                StartCoroutine(SlideAnimation());
             }
 
             rigidbody2d.velocity = new Vector2(currentSpeed, rigidbody2d.velocity.y);
@@ -83,10 +81,10 @@ public class PlayerControls : MonoBehaviour
 
     private void FixedUpdate()
     {
-        JumpIfAllowed();
         characterController.Move(rigidbody2d.velocity.x * Time.fixedDeltaTime, crouch, jump);
         //After a successful jump we need to set jump attribute to the default value = false;
         jump = false;
+
     }
 
     void SlowDown()
@@ -110,11 +108,10 @@ public class PlayerControls : MonoBehaviour
             raceEnded = true;
         }
     }
-    private Vector2 startTouchPosition, endTouchPosition;
-    private bool jumpAllowed = false;
+
     private void SwipeCheck()
     {
-        
+
         if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
         {
             startTouchPosition = Input.GetTouch(0).position;
@@ -124,7 +121,12 @@ public class PlayerControls : MonoBehaviour
             endTouchPosition = Input.GetTouch(0).position;
             if (endTouchPosition.y > startTouchPosition.y && rigidbody2d.velocity.y == 0)
             {
-                jumpAllowed = true;
+                jump = true;
+
+            }
+            else if (endTouchPosition.y < startTouchPosition.y && rigidbody2d.velocity.y == 0)
+            {
+                crouch = true;
             }
         }
 
@@ -144,12 +146,11 @@ public class PlayerControls : MonoBehaviour
 
         currentAcceleration = acceleration;
     }
-    private void JumpIfAllowed()
+    IEnumerator SlideAnimation()
     {
-        if (jumpAllowed)
-        {
-            rigidbody2d.AddForce(Vector2.up * jumpForce);
-            jumpAllowed = false;
-        }
+        crouch = true;
+        yield return new WaitForSeconds(0.500f);
+        crouch = false;
     }
+
 }
