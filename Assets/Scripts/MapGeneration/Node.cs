@@ -9,6 +9,11 @@ public class Node : MonoBehaviour
  
     }
 
+    /// <summary>
+    /// Stvara novi node sa odabranim tipom.
+    /// </summary>
+    /// <param name="type"></param>
+    /// <returns>GameObject</returns>
     public GameObject CreateNode(TileType type)
     {
         GameObject referenceTile = null;
@@ -20,16 +25,21 @@ public class Node : MonoBehaviour
             case TileType.snow:
                 referenceTile = (GameObject)Instantiate(Resources.Load("TileSnow"));
                 break;
+            case TileType.empty:
+                referenceTile = (GameObject)Instantiate(Resources.Load("TileEmpty"));
+                break;
 
         }    
         return referenceTile;
     }
+    
 
     public TileType tileType;
     public enum TileType
     {
         dirt,
-        snow
+        snow,
+        empty
     }
 
 }
