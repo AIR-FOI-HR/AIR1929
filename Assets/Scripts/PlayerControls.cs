@@ -126,7 +126,7 @@ public class PlayerControls : MonoBehaviour
             }
             else if (endTouchPosition.y < startTouchPosition.y && rigidbody2d.velocity.y == 0)
             {
-                crouch = true;
+                StartCoroutine(SlideAnimation());
             }
         }
 
