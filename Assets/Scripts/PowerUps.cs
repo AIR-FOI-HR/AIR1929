@@ -25,16 +25,17 @@ public class PowerUps : MonoBehaviour
     private void PickUp()
     {
         
-        if (gameObject.name== "powerup_collectable")
+        if (gameObject.name== "powerup_collectable" || gameObject.name == "powerup_collectable_rocket")
         {
             for (int i = 0; i < inventory.slots.Length; i++)
             {
-                if (inventory.puno[i] == false)
+                if (inventory.isFull[i] == false)
                 {
-                    inventory.puno[i] = true;
+                    inventory.isFull[i] = true;
                     Debug.Log("Dodano u inventory");
                     Instantiate(itemButton, inventory.slots[i].transform,false);
                     Destroy(gameObject);
+                    break;
                 }
             }
         }
