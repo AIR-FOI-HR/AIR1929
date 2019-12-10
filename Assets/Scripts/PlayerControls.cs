@@ -32,6 +32,15 @@ public class PlayerControls : MonoBehaviour
         StartCoroutine(Countdown());
     }
 
+    public void onJumpClick()
+    {
+        characterController.Move(rigidbody2d.velocity.x * Time.fixedDeltaTime, false, true);
+    }
+    public void onSlideClick()
+    {
+        StartCoroutine(SlideAnimation());
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -50,7 +59,7 @@ public class PlayerControls : MonoBehaviour
             animator.SetFloat("Speed", currentSpeed);
 
             //For Android
-            SwipeCheck();
+            //SwipeCheck();
 
             //For Computer
             if (Input.GetButtonDown("Jump") == true)
