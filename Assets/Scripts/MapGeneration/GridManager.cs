@@ -8,16 +8,23 @@ public class GridManager : MonoBehaviour
     public int rows = 20;
     public int cols = 100;
     public float tileSize = (float)1.28;
+    public int floorSize = 4;
+    public int chaos = 3;
     public GameObject[,] grid = null;
 
     private int floorA, floorB, floorC, floorD;
+    System.Random rng = new System.Random();
 
     void Start()
     {
         grid = new GameObject[cols, rows];
         GenerateFloorDimensions(); //generiramo katove na nasumičnim mjestima
         GenerateGrid(); // stvaramo grid
-        CheckForTop(); // vrh pretvaramo u snijeg
+        GenerateHoles(floorA);
+        GenerateHoles(floorB);
+        GenerateHoles(floorC);
+        //GenerateObstacles();
+          CheckForTop(); // vrh pretvaramo u snijeg
     }
 
     private void GenerateGrid()
@@ -47,6 +54,75 @@ public class GridManager : MonoBehaviour
             }
         }
     }
+
+    
+
+    private void GenerateObstacles()
+    {
+        for (int col = 0; col < cols; col++)
+        {
+            for (int row = 0; row < rows; row++)
+            {
+                if(RandomNumber(100) < chaos)
+                {
+                    Debug.Log("col: "+col+" row: "+row);
+                    CreateObstacle(col, row);
+                }
+            }
+        }       
+    }
+    private void CreateObstacle(int col, int row)
+    {
+        GameObject go = grid[col, row];
+        if (go.GetComponent<Node>().tileType == Node.TileType.dirt ||
+            go.GetComponent<Node>().tileType == Node.TileType.snow)
+        {
+            RemoveTile(col,row);
+            CreateTile(col, row, Node.TileType.empty);
+        }
+        else if (go.GetComponent<Node>().tileType == Node.TileType.empty)
+        {
+          //  CreateTile(col, row, Node.TileType.dirt);
+            
+        }
+    }
+
+
+
+
+    /// <summary>
+    /// Generiraju se nasumično rupe u katu.
+    /// </summary>
+    /// <param name="floor"></param>
+    private void GenerateHoles(int floor)
+    {
+        for (int row = 0; row < rows; row++)
+        {
+            if (row == floor)
+            {
+                for (int col = 0; col < cols; col++)
+                {
+                    if (RandomNumber(100) < chaos)
+                    {
+                        GameObject go = grid[col, row];
+                        for (int i = RandomNumber(0, 2); i < 5; i++)
+                        {
+                            if(col == cols)
+                            {
+                                break;
+                            }
+                            RemoveTile(col, row);
+                            col++;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// Funkcija gleda gdje je najgornji tile te njega pretvara u snježni.
+    /// </summary>
     private void CheckForTop()
     {
         for (int col = 0; col < cols; col++)
@@ -56,7 +132,7 @@ public class GridManager : MonoBehaviour
                 GameObject go = grid[col, row];
                 if(go.GetComponent<Node>().tileType == Node.TileType.dirt)
                 {
-                    DestroyTile(col, row);
+                    RemoveTile(col, row);
                     CreateTile(col, row, Node.TileType.snow);
                     break;
                     
@@ -64,6 +140,7 @@ public class GridManager : MonoBehaviour
             }
         }
     }
+
     /// <summary>
     /// Stvara tile određenog tipa na tim kordinatama.
     /// </summary>
@@ -89,12 +166,13 @@ public class GridManager : MonoBehaviour
 
         return tile;
     }
+
     /// <summary>
     /// Uništava tile na tim kordinatama.
     /// </summary>
     /// <param name="col"></param>
     /// <param name="row"></param>
-    private void DestroyTile(int col, int row)
+    private void RemoveTile(int col, int row)
     {       
         Destroy(grid[col, row]);
         CreateTile(col, row, Node.TileType.empty);
@@ -112,27 +190,39 @@ public class GridManager : MonoBehaviour
         retVal = grid[posX, posY];
         return retVal;
     }
+
     /// <summary>
     /// Generira na kojim će se mjestima nalaziti katovi.
     /// </summary>
     private void GenerateFloorDimensions()
     {
-        floorA = GenerateNumber(0, 4);       
-        floorB = GenerateNumber(floorA + 3, 10);
-        floorC = GenerateNumber(floorB + 3, 15);
-        floorD = GenerateNumber(floorC + 3, rows-1);
+        floorA = RandomNumber(0, 4);       
+        floorB = RandomNumber(floorA + floorSize, 10);
+        floorC = RandomNumber(floorB + floorSize, 15);
+        floorD = RandomNumber(floorC + floorSize, rows-1);
     }
+
     /// <summary>
-    /// Generira nasumičan broj.
+    /// Generira nasumičan broj od min do max.
     /// </summary>
     /// <param name="min"></param>
     /// <param name="max"></param>
     /// <returns>int</returns>
-    public int GenerateNumber(int min, int max)
+    public int RandomNumber(int min, int max)
     {
-        System.Random rng = new System.Random();
         int number = rng.Next(min, max);
         return number;       
+    }
+
+    /// <summary>
+    /// Generira nasumičan broj od 0 do max.
+    /// </summary>
+    /// <param name="max"></param>
+    /// <returns></returns>
+    public int RandomNumber(int max)
+    {
+        int number = rng.Next(0, max);
+        return number;
     }
     
 }
