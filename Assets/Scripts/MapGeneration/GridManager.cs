@@ -6,8 +6,9 @@ using UnityEngine;
 public class GridManager : MonoBehaviour
 {
     public int rows = 20;
-    public int cols = 100;
+    public int cols = 200;
     public float tileSize = (float)1.28;
+    public int numberOfRooms = 10;
     public int floorSize = 4;
     public int chaos = 3;
     public GameObject[,] grid = null;
@@ -17,19 +18,32 @@ public class GridManager : MonoBehaviour
 
     void Start()
     {
-        grid = new GameObject[cols, rows];
-        GenerateFloorDimensions(); //generiramo katove na nasumičnim mjestima
-        GenerateGrid(); // stvaramo grid
-        GenerateHoles(floorA);
-        GenerateHoles(floorB);
-        GenerateHoles(floorC);
+        Debug.Log("Start: " + System.DateTime.Now);
+        grid = new GameObject[cols * numberOfRooms, rows];
+        GenerateMap(numberOfRooms);
+
+
+
         //GenerateObstacles();
-          CheckForTop(); // vrh pretvaramo u snijeg
+        CheckForTop(); // vrh pretvaramo u snijeg
+        Debug.Log("End: " + System.DateTime.Now);
+    }
+    
+    private void GenerateMap(int rooms)
+    {
+        for (int i = 0; i < rooms; i++)
+        {
+            GenerateFloorDimensions();
+            GenerateRoom(i); 
+            GenerateHoles(floorA, i);
+            GenerateHoles(floorB, i);
+            GenerateHoles(floorC, i);
+        }
     }
 
-    private void GenerateGrid()
-    {   
-        for (int col = 0; col < cols; col++)
+    private void GenerateRoom(int room)
+    {     
+        for (int col = cols * room; col < (cols + cols*room); col++)
         {
             for (int row = 0; row < rows; row++)
             {
@@ -53,54 +67,20 @@ public class GridManager : MonoBehaviour
                 }
             }
         }
-    }
-
-    
-
-    private void GenerateObstacles()
-    {
-        for (int col = 0; col < cols; col++)
-        {
-            for (int row = 0; row < rows; row++)
-            {
-                if(RandomNumber(100) < chaos)
-                {
-                    Debug.Log("col: "+col+" row: "+row);
-                    CreateObstacle(col, row);
-                }
-            }
-        }       
-    }
-    private void CreateObstacle(int col, int row)
-    {
-        GameObject go = grid[col, row];
-        if (go.GetComponent<Node>().tileType == Node.TileType.dirt ||
-            go.GetComponent<Node>().tileType == Node.TileType.snow)
-        {
-            RemoveTile(col,row);
-            CreateTile(col, row, Node.TileType.empty);
-        }
-        else if (go.GetComponent<Node>().tileType == Node.TileType.empty)
-        {
-          //  CreateTile(col, row, Node.TileType.dirt);
-            
-        }
-    }
-
-
+    } 
 
 
     /// <summary>
     /// Generiraju se nasumično rupe u katu.
     /// </summary>
     /// <param name="floor"></param>
-    private void GenerateHoles(int floor)
+    private void GenerateHoles(int floor, int room)
     {
         for (int row = 0; row < rows; row++)
         {
             if (row == floor)
             {
-                for (int col = 0; col < cols; col++)
+                for (int col = cols * room; col < (cols + cols * room); col++)
                 {
                     if (RandomNumber(100) < chaos)
                     {
@@ -125,8 +105,9 @@ public class GridManager : MonoBehaviour
     /// </summary>
     private void CheckForTop()
     {
-        for (int col = 0; col < cols; col++)
+        for (int col = 0; col < cols * numberOfRooms; col++)
         {
+            
             for (int row = 0; row < rows; row++)
             {
                 GameObject go = grid[col, row];
@@ -150,6 +131,7 @@ public class GridManager : MonoBehaviour
     /// <returns>GameObject</returns>
     private GameObject CreateTile(int col, int row, Node.TileType type)
     {
+        Debug.Log("(" + col + ", " + row + ")");
         GameObject referenceTile = (GameObject)Resources.Load("TileDirt");
         Node node = referenceTile.GetComponent<Node>();
 

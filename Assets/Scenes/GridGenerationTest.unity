@@ -226,6 +226,8 @@ MonoBehaviour:
   rows: 20
   cols: 100
   tileSize: 1.28
+  floorSize: 4
+  chaos: 3
 --- !u!4 &438179197
 Transform:
   m_ObjectHideFlags: 0
