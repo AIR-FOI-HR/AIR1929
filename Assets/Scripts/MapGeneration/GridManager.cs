@@ -6,7 +6,7 @@ using UnityEngine;
 public class GridManager : MonoBehaviour
 {
     public int rows = 20;
-    public int cols = 200;
+    public int cols = 100;
     public float tileSize = (float)1.28;
     public int numberOfRooms = 10;
     public int floorSize = 4;
@@ -29,6 +29,10 @@ public class GridManager : MonoBehaviour
         Debug.Log("End: " + System.DateTime.Now);
     }
     
+    /// <summary>
+    /// Generira se cijela mapa za igranje sa tim brojem soba.
+    /// </summary>
+    /// <param name="rooms"></param>
     private void GenerateMap(int rooms)
     {
         for (int i = 0; i < rooms; i++)
@@ -38,9 +42,114 @@ public class GridManager : MonoBehaviour
             GenerateHoles(floorA, i);
             GenerateHoles(floorB, i);
             GenerateHoles(floorC, i);
+            GenerateObstacles(floorA, i);
+            GenerateObstacles(floorB, i);
+            GenerateObstacles(floorC, i);
+            GenerateObstacles(floorD, i);
         }
     }
 
+    private void GenerateObstacles(int floor, int room)
+    {
+        int currentCol, currentRow;
+        for (int col = cols * room; col < (cols + cols * room); col++)
+        {
+            GameObject go = grid[col, floor];
+            if (go.GetComponent<Node>().tileType == Node.TileType.dirt)
+            {
+                if (RandomNumber(1)==1)
+                {
+                    if (col > 0)
+                    {
+                        if (grid[col - 1, floor].GetComponent<Node>().tileType == Node.TileType.dirt)
+                        {
+                            if (RandomNumber(100) < chaos)
+                            {
+                                if (floor > 0)
+                                {
+                                    currentCol = col;
+                                    currentRow = floor - 1;
+
+                                    CreateTile(currentCol, currentRow, Node.TileType.dirt); //gore
+
+                                    for (int i = 0; i < RandomNumber(2, 4); i++)
+                                    {
+                                        if (RandomNumber(100) < 50)
+                                        {
+                                            if (currentRow > 2)
+                                            {
+                                                if (!CheckForTile(currentCol, currentRow - 3) &&
+                                                    !CheckForTile(currentCol - 1, currentRow - 3))
+                                                {
+                                                    currentRow -= 1;
+                                                    CreateTile(currentCol, currentRow, Node.TileType.dirt);
+                                                }
+                                                else
+                                                {
+                                                    DebugLogTile(currentCol, currentRow, "stajem");
+                                                }
+                                            }
+
+                                        }
+                                        else //ide desno
+                                        {
+                                            if (currentCol < cols * numberOfRooms)
+                                            {
+                                                currentCol += 1;
+                                                CreateTile(currentCol, currentRow, Node.TileType.dirt);
+                                            }
+
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    } 
+                } else
+                {
+                    //tu ide prema dole
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// Provjerava imali na tim kordinatama tile i vraća true ako ima.
+    /// </summary>
+    /// <param name="col"></param>
+    /// <param name="row"></param>
+    /// <returns></returns>
+    private bool CheckForTile(int col, int row)
+    {
+        GameObject go = GetNode(col, row);
+        bool retVal = false;
+        if(go.GetComponent<Node>().tileType == Node.TileType.dirt ||
+            go.GetComponent<Node>().tileType == Node.TileType.snow)
+        {
+           // DebugLogTile(col, row, "true");
+            retVal = true;
+        }
+        return retVal;
+    }
+    
+    /// <summary>
+    /// Ispisuje u debug logu taj tile.
+    /// </summary>
+    /// <param name="col"></param>
+    /// <param name="row"></param>
+    private void DebugLogTile(int col, int row)
+    {
+        Debug.Log("(" + col + ", " + row + ")");
+    }
+    private void DebugLogTile(int col, int row, string message)
+    {
+        Debug.Log("(" + col + ", " + row + ") -> " + message);
+    }
+
+    /// <summary>
+    /// Generira se soba sa tim rednim brojem.
+    /// </summary>
+    /// <param name="room"></param>
     private void GenerateRoom(int room)
     {     
         for (int col = cols * room; col < (cols + cols*room); col++)
@@ -87,7 +196,7 @@ public class GridManager : MonoBehaviour
                         GameObject go = grid[col, row];
                         for (int i = RandomNumber(0, 2); i < 5; i++)
                         {
-                            if(col == cols)
+                            if(col == cols + cols * room)
                             {
                                 break;
                             }
@@ -131,7 +240,6 @@ public class GridManager : MonoBehaviour
     /// <returns>GameObject</returns>
     private GameObject CreateTile(int col, int row, Node.TileType type)
     {
-        Debug.Log("(" + col + ", " + row + ")");
         GameObject referenceTile = (GameObject)Resources.Load("TileDirt");
         Node node = referenceTile.GetComponent<Node>();
 
@@ -181,7 +289,7 @@ public class GridManager : MonoBehaviour
         floorA = RandomNumber(0, 4);       
         floorB = RandomNumber(floorA + floorSize, 10);
         floorC = RandomNumber(floorB + floorSize, 15);
-        floorD = RandomNumber(floorC + floorSize, rows-1);
+        floorD = rows - 1;
     }
 
     /// <summary>
