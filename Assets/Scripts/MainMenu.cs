@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
-    public GameObject mainMenu, settings, editPlayer;
+    public GameObject mainMenu, settings, editPlayer, playSelectionController;
 
     public void Play()
     {
@@ -15,6 +15,11 @@ public class MainMenu : MonoBehaviour
 
     public void onPlay()
     {
+        /*
+         u Start() metodu igraca dodati liniju:
+         DontDestroyOnLoad(gameObject);
+         */
+        //playSelectionController.GetComponent<PlayerSelectionController>().ReturnCurrentPlayer().SetActive(true);
         SceneManager.LoadScene("WinterRun (Map)");
     }
 
