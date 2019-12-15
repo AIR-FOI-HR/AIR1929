@@ -21,14 +21,10 @@ public class GridManager : MonoBehaviour
         Debug.Log("Start: " + System.DateTime.Now);
         grid = new GameObject[cols * numberOfRooms, rows];
         GenerateMap(numberOfRooms);
-
-
-
-        //GenerateObstacles();
         CheckForTop(); // vrh pretvaramo u snijeg
         Debug.Log("End: " + System.DateTime.Now);
     }
-    
+
     /// <summary>
     /// Generira se cijela mapa za igranje sa tim brojem soba.
     /// </summary>
@@ -37,8 +33,9 @@ public class GridManager : MonoBehaviour
     {
         for (int i = 0; i < rooms; i++)
         {
-            GenerateFloorDimensions();
-            GenerateRoom(i); 
+            Debug.Log(i);
+
+            GenerateRoom(i);
             GenerateHoles(floorA, i);
             GenerateHoles(floorB, i);
             GenerateHoles(floorC, i);
@@ -51,87 +48,159 @@ public class GridManager : MonoBehaviour
 
     private void GenerateObstacles(int floor, int room)
     {
-        int currentCol, currentRow;
         for (int col = cols * room; col < (cols + cols * room); col++)
         {
             GameObject go = grid[col, floor];
             if (go.GetComponent<Node>().tileType == Node.TileType.dirt)
             {
-                if (RandomNumber(1)==1)
+                if (floor != rows - 1)
                 {
-                    if (col > 0)
+                    if (RandomNumber(100) < 50) 
+                    {                        
+                        CreateObstacles(col, floor, Direction.up);
+                    }
+                    else
                     {
-                        if (grid[col - 1, floor].GetComponent<Node>().tileType == Node.TileType.dirt)
-                        {
-                            if (RandomNumber(100) < chaos)
-                            {
-                                if (floor > 0)
-                                {
-                                    currentCol = col;
-                                    currentRow = floor - 1;
-
-                                    CreateTile(currentCol, currentRow, Node.TileType.dirt); //gore
-
-                                    for (int i = 0; i < RandomNumber(2, 4); i++)
-                                    {
-                                        if (RandomNumber(100) < 50)
-                                        {
-                                            if (currentRow > 2)
-                                            {
-                                                if (!CheckForTile(currentCol, currentRow - 3) &&
-                                                    !CheckForTile(currentCol - 1, currentRow - 3))
-                                                {
-                                                    currentRow -= 1;
-                                                    CreateTile(currentCol, currentRow, Node.TileType.dirt);
-                                                }
-                                                else
-                                                {
-                                                    DebugLogTile(currentCol, currentRow, "stajem");
-                                                }
-                                            }
-
-                                        }
-                                        else //ide desno
-                                        {
-                                            if (currentCol < cols * numberOfRooms)
-                                            {
-                                                currentCol += 1;
-                                                CreateTile(currentCol, currentRow, Node.TileType.dirt);
-                                            }
-
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    } 
-                } else
+                        CreateObstacles(col, floor, Direction.down);
+                    }
+                }
+                else //zadnji kat
                 {
-                    //tu ide prema dole
+                    if (RandomNumber(100) < 50)
+                    {                          
+                        CreateObstacles(col, floor, Direction.up);                            
+                    }
                 }
             }
         }
     }
 
     /// <summary>
+    /// Generiraju se prepreke na tom katu. True znači da će se generirati
+    /// prepreke gornje strane kata, a false da će se generirati sa donje.
+    /// </summary>
+    /// <param name="col"></param>
+    /// <param name="floor"></param>
+    /// <param name="up"></param>
+    private void CreateObstacles(int col, int floor, Direction direction)
+    {
+        DebugLogTile(col, floor);
+        int currentCol, currentRow;
+        if (col > 0)
+        {
+            if (direction == Direction.up)
+            {
+                if (RandomNumber(100) <= chaos)
+                {
+                    currentCol = col;
+                    currentRow = floor;
+                    if (!CheckForObstacles(currentCol, currentRow, Direction.up))
+                    {
+                        
+                        currentRow -= 1;
+                        CreateTile(currentCol, currentRow, Node.TileType.dirt);
+                        for (int i = 0; i < RandomNumber(2, 4); i++)
+                        {
+                            if (RandomNumber(100) < 50) //gore
+                            {
+                                if (!CheckForObstacles(currentCol, currentRow, Direction.up))
+                                {
+                                    currentRow -= 1;
+                                    CreateTile(currentCol, currentRow, Node.TileType.dirt);
+                                }
+                            }
+                            else // desno
+                            {
+                                if (!CheckForObstacles(currentCol, currentRow, Direction.right))
+                                {
+                                    currentCol += 1;
+                                    CreateTile(currentCol, currentRow, Node.TileType.dirt);
+                                    if (currentRow != floor)
+                                    {
+                                        if (RandomNumber(100) < 50)
+                                        {
+                                            currentRow += 1;
+                                            CreateTile(currentCol, currentRow, Node.TileType.dirt);
+                                        }
+                                    }
+                                }
+                            }
+
+                        }
+                    }
+                }
+            }
+            else if (direction == Direction.down) // dole
+            {
+
+            } 
+        }
+    }
+
+    /// <summary>
+    /// Vraća true ako postoje prepreke za postavljanje novog tilea.
+    /// </summary>
+    /// <param name="col"></param>
+    /// <param name="row"></param>
+    /// <param name="up"></param>
+    /// <returns></returns>
+    private bool CheckForObstacles(int col, int row, Direction direction)
+    {
+        int currentCol = col;
+        int currentRow = row;
+        bool retVal = true;
+        if (direction == Direction.up)
+        {
+            if (!CheckForTile(currentCol - 1, currentRow - 1) &&
+                !CheckForTile(currentCol + 0, currentRow - 1) &&
+                !CheckForTile(currentCol + 1, currentRow - 1) &&
+
+                !CheckForTile(currentCol - 1, currentRow - 2) &&
+                !CheckForTile(currentCol + 0, currentRow - 2) &&
+                !CheckForTile(currentCol + 1, currentRow - 2) &&
+
+                !CheckForTile(currentCol - 1, currentRow - 3) &&
+                !CheckForTile(currentCol + 0, currentRow - 3))
+            {                
+                retVal = false;
+            }
+        }
+        else if (direction == Direction.right)
+        {
+            if(!CheckForTile(currentCol + 1, currentRow - 1))
+            {
+                retVal = false;
+            }
+        } else if (direction == Direction.down)
+        {
+            //check for down
+        }
+        return retVal;
+    }
+
+    /// <summary>
     /// Provjerava imali na tim kordinatama tile i vraća true ako ima.
+    /// Ako su kordinate van grida vraća true.
     /// </summary>
     /// <param name="col"></param>
     /// <param name="row"></param>
     /// <returns></returns>
     private bool CheckForTile(int col, int row)
-    {
+    {       
         GameObject go = GetNode(col, row);
         bool retVal = false;
-        if(go.GetComponent<Node>().tileType == Node.TileType.dirt ||
+        if(go == null)
+        {
+            retVal = true;
+        }
+        else if (go.GetComponent<Node>().tileType == Node.TileType.dirt ||
             go.GetComponent<Node>().tileType == Node.TileType.snow)
         {
-           // DebugLogTile(col, row, "true");
             retVal = true;
         }
         return retVal;
     }
-    
+
     /// <summary>
     /// Ispisuje u debug logu taj tile.
     /// </summary>
@@ -141,9 +210,22 @@ public class GridManager : MonoBehaviour
     {
         Debug.Log("(" + col + ", " + row + ")");
     }
-    private void DebugLogTile(int col, int row, string message)
+
+    /// <summary>
+    /// Ispisuje u debug logu taj tile i poruku.
+    /// </summary>
+    /// <param name="col"></param>
+    /// <param name="row"></param>
+    /// <param name="message"></param>
+    private void DebugLogTile(int col, int row, string message, bool warning = false)
     {
-        Debug.Log("(" + col + ", " + row + ") -> " + message);
+        if (!warning)
+        {
+            Debug.Log("(" + col + ", " + row + ") -> " + message); 
+        } else
+        {
+            Debug.LogWarning("(" + col + ", " + row + ") -> " + message);
+        }
     }
 
     /// <summary>
@@ -151,15 +233,18 @@ public class GridManager : MonoBehaviour
     /// </summary>
     /// <param name="room"></param>
     private void GenerateRoom(int room)
-    {     
-        for (int col = cols * room; col < (cols + cols*room); col++)
+    {
+        GenerateFloorDimensions();
+        for (int col = cols * room; col < (cols + cols * room); col++)
         {
+            
             for (int row = 0; row < rows; row++)
             {
-                if(row >= 0 && row < floorA)
+                if (row >= 0 && row < floorA)
                 {
                     CreateTile(col, row, Node.TileType.empty);
-                } else if (row > floorA && row < floorB)
+                }
+                else if (row > floorA && row < floorB)
                 {
                     CreateTile(col, row, Node.TileType.empty);
                 }
@@ -170,14 +255,14 @@ public class GridManager : MonoBehaviour
                 else if (row > floorC && row < floorD)
                 {
                     CreateTile(col, row, Node.TileType.empty);
-                } else
+                }
+                else
                 {
                     CreateTile(col, row, Node.TileType.dirt);
                 }
             }
         }
-    } 
-
+    }
 
     /// <summary>
     /// Generiraju se nasumično rupe u katu.
@@ -196,7 +281,7 @@ public class GridManager : MonoBehaviour
                         GameObject go = grid[col, row];
                         for (int i = RandomNumber(0, 2); i < 5; i++)
                         {
-                            if(col == cols + cols * room)
+                            if (col == cols + cols * room)
                             {
                                 break;
                             }
@@ -216,17 +301,17 @@ public class GridManager : MonoBehaviour
     {
         for (int col = 0; col < cols * numberOfRooms; col++)
         {
-            
+
             for (int row = 0; row < rows; row++)
             {
                 GameObject go = grid[col, row];
-                if(go.GetComponent<Node>().tileType == Node.TileType.dirt)
+                if (go.GetComponent<Node>().tileType == Node.TileType.dirt)
                 {
                     RemoveTile(col, row);
                     CreateTile(col, row, Node.TileType.snow);
                     break;
-                    
-                } 
+
+                }
             }
         }
     }
@@ -240,6 +325,12 @@ public class GridManager : MonoBehaviour
     /// <returns>GameObject</returns>
     private GameObject CreateTile(int col, int row, Node.TileType type)
     {
+        if (col >= cols * numberOfRooms || row >= rows)
+        {
+            Debug.LogWarning("CreateTile je problem");
+            return null;
+        }
+        DebugLogTile(col, row, "radim tile", true);
         GameObject referenceTile = (GameObject)Resources.Load("TileDirt");
         Node node = referenceTile.GetComponent<Node>();
 
@@ -252,7 +343,7 @@ public class GridManager : MonoBehaviour
         float posY = row * -tileSize;
         tile.transform.position = new Vector2(posX, posY);
         grid[col, row] = tile;
-        Destroy(referenceTile);        
+        Destroy(referenceTile);
 
         return tile;
     }
@@ -263,7 +354,7 @@ public class GridManager : MonoBehaviour
     /// <param name="col"></param>
     /// <param name="row"></param>
     private void RemoveTile(int col, int row)
-    {       
+    {
         Destroy(grid[col, row]);
         CreateTile(col, row, Node.TileType.empty);
     }
@@ -277,16 +368,23 @@ public class GridManager : MonoBehaviour
     public GameObject GetNode(int posX, int posY)
     {
         GameObject retVal = null;
-        retVal = grid[posX, posY];
+        if (posX >= cols || posY >= rows || posX<0 || posY<0)
+        {
+            retVal = null;
+        } else
+        {
+            retVal = grid[posX, posY];
+        }
+        
         return retVal;
     }
 
     /// <summary>
     /// Generira na kojim će se mjestima nalaziti katovi.
     /// </summary>
-    private void GenerateFloorDimensions()
+    private void GenerateFloorDimensions() //POPRAVITI 
     {
-        floorA = RandomNumber(0, 4);       
+        floorA = RandomNumber(4,4);
         floorB = RandomNumber(floorA + floorSize, 10);
         floorC = RandomNumber(floorB + floorSize, 15);
         floorD = rows - 1;
@@ -301,7 +399,7 @@ public class GridManager : MonoBehaviour
     public int RandomNumber(int min, int max)
     {
         int number = rng.Next(min, max);
-        return number;       
+        return number;
     }
 
     /// <summary>
@@ -314,6 +412,12 @@ public class GridManager : MonoBehaviour
         int number = rng.Next(0, max);
         return number;
     }
-    
+
+    private enum Direction
+    {
+        up,
+        down,
+        right,
+    }
 }
 

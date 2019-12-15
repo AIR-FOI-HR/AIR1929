@@ -223,12 +223,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa38ce41619164244a2bab9b3b65ae49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rows: 20
+  rows: 22
   cols: 100
   tileSize: 1.28
-  numberOfRooms: 2
+  numberOfRooms: 3
   floorSize: 5
-  chaos: 3
+  chaos: 10
 --- !u!4 &438179197
 Transform:
   m_ObjectHideFlags: 0
