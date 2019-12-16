@@ -7,8 +7,8 @@ public class PlayerSelectionController : MonoBehaviour
 {
     GameObject currentPlayer;
     public GameObject[] listOfPlayers;
-    int currentId;
-    Image shownPlayer;
+    public int currentId;
+    public Image shownPlayer;
 
     public void ShowNextPlayer()
     {
@@ -44,22 +44,23 @@ public class PlayerSelectionController : MonoBehaviour
         }
     }
 
-    void ShowPlayer()
+    public void ShowPlayer()
     {
         shownPlayer.sprite = listOfPlayers[currentId].GetComponent<SpriteRenderer>().sprite;
+        shownPlayer.SetNativeSize();
     }
 
     public void SetCurrentPlayer()
     {
         if (listOfPlayers.Length != 0)
         {
-            currentPlayer = Instantiate(listOfPlayers[currentId], new Vector2(0, 0), Quaternion.identity);
+            currentPlayer = Instantiate(listOfPlayers[currentId], new Vector2(5, 3), Quaternion.identity);
             currentPlayer.SetActive(false);
         }
     }
 
-    /*public GameObject ReturnCurrentPlayer()
+    public GameObject ReturnCurrentPlayer()
     {
         return currentPlayer;
-    }*/
+    }
 }

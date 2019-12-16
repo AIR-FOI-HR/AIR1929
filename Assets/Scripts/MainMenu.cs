@@ -15,11 +15,7 @@ public class MainMenu : MonoBehaviour
 
     public void onPlay()
     {
-        /*
-         u Start() metodu igraca dodati liniju:
-         DontDestroyOnLoad(gameObject);
-         */
-        //playSelectionController.GetComponent<PlayerSelectionController>().ReturnCurrentPlayer().SetActive(true);
+        playSelectionController.GetComponent<PlayerSelectionController>().ReturnCurrentPlayer().SetActive(true);
         SceneManager.LoadScene("WinterRun (Map)");
     }
 
@@ -33,6 +29,7 @@ public class MainMenu : MonoBehaviour
     {
         editPlayer.SetActive(true);
         mainMenu.SetActive(false);
+        playSelectionController.GetComponent<PlayerSelectionController>().ShowPlayer();
     }
     public void onBack()
     {

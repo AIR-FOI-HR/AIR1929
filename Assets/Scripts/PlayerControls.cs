@@ -20,7 +20,7 @@ public class PlayerControls : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        DontDestroyOnLoad(gameObject);
         currentSpeed = 0;
         currentAcceleration = 0;
         rigidbody2d = GetComponent<Rigidbody2D>();
