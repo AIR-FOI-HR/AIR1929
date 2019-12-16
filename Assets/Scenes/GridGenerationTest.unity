@@ -227,7 +227,7 @@ MonoBehaviour:
   cols: 100
   tileSize: 1.28
   numberOfRooms: 3
-  floorSize: 5
+  floorSize: 4
   chaos: 10
 --- !u!4 &438179197
 Transform:

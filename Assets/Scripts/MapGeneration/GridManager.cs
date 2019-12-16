@@ -46,6 +46,11 @@ public class GridManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Generira prepreke na tom katu.
+    /// </summary>
+    /// <param name="floor"></param>
+    /// <param name="room"></param>
     private void GenerateObstacles(int floor, int room)
     {
         for (int col = cols * room; col < (cols + cols * room); col++)
@@ -55,8 +60,8 @@ public class GridManager : MonoBehaviour
             {
                 if (floor != rows - 1)
                 {
-                    if (RandomNumber(100) < 50) 
-                    {                        
+                    if (RandomNumber(100) < 50)
+                    {
                         CreateObstacles(col, floor, Direction.up);
                     }
                     else
@@ -67,8 +72,8 @@ public class GridManager : MonoBehaviour
                 else //zadnji kat
                 {
                     if (RandomNumber(100) < 50)
-                    {                          
-                        CreateObstacles(col, floor, Direction.up);                            
+                    {
+                        CreateObstacles(col, floor, Direction.up);
                     }
                 }
             }
@@ -76,15 +81,15 @@ public class GridManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Generiraju se prepreke na tom katu. True znači da će se generirati
-    /// prepreke gornje strane kata, a false da će se generirati sa donje.
+    /// Stvara se prepreka na tim kordinatama. Direction označuje s koje strane kata
+    /// će se stvoriti prepreka.
     /// </summary>
     /// <param name="col"></param>
     /// <param name="floor"></param>
     /// <param name="up"></param>
     private void CreateObstacles(int col, int floor, Direction direction)
     {
-        DebugLogTile(col, floor);
+        //DebugLogTile(col, floor);
         int currentCol, currentRow;
         if (col > 0)
         {
@@ -96,9 +101,10 @@ public class GridManager : MonoBehaviour
                     currentRow = floor;
                     if (!CheckForObstacles(currentCol, currentRow, Direction.up))
                     {
-                        
+
                         currentRow -= 1;
                         CreateTile(currentCol, currentRow, Node.TileType.dirt);
+                        DebugLogTile(currentCol, currentRow, "Stvaram gore", true);
                         for (int i = 0; i < RandomNumber(2, 4); i++)
                         {
                             if (RandomNumber(100) < 50) //gore
@@ -132,8 +138,31 @@ public class GridManager : MonoBehaviour
             }
             else if (direction == Direction.down) // dole
             {
+                if (RandomNumber(100) <= chaos)
+                {
+                    currentCol = col;
+                    currentRow = floor;
+                    if (!CheckForObstacles(currentCol, currentRow, Direction.down))
+                    {
 
-            } 
+                        currentRow += 1;
+                        CreateTile(currentCol, currentRow, Node.TileType.dirt);
+                        if(RandomNumber(100) < 50)
+                        {
+                            CreateTile(currentCol + 1, currentRow, Node.TileType.dirt);                            
+                        }
+                        for (int i = 0; i < RandomNumber(2, 4); i++)
+                        {
+                            if (!CheckForObstacles(currentCol, currentRow, Direction.down))
+                            {
+                                currentRow += 1;
+                                CreateTile(currentCol, currentRow, Node.TileType.dirt);
+                            }
+
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -161,19 +190,41 @@ public class GridManager : MonoBehaviour
 
                 !CheckForTile(currentCol - 1, currentRow - 3) &&
                 !CheckForTile(currentCol + 0, currentRow - 3))
-            {                
+            {
                 retVal = false;
             }
         }
         else if (direction == Direction.right)
         {
-            if(!CheckForTile(currentCol + 1, currentRow - 1))
+            if (!CheckForTile(currentCol + 2, currentRow - 1))
             {
                 retVal = false;
             }
-        } else if (direction == Direction.down)
+        }
+        else if (direction == Direction.down)
         {
-            //check for down
+            if (CheckForTile(currentCol + 0, currentRow + 3) &&
+                CheckForTile(currentCol - 1, currentRow + 3))
+            {
+                if (!CheckForTile(currentCol - 1, currentRow + 2) &&
+                    !CheckForTile(currentCol + 0, currentRow + 2) &&
+                    !CheckForTile(currentCol + 1, currentRow + 2))
+                {
+                    retVal = false;
+                }
+            }
+            else
+            {
+                if (!CheckForTile(currentCol - 1, currentRow + 2) &&
+                    !CheckForTile(currentCol + 0, currentRow + 2) &&
+                    !CheckForTile(currentCol + 1, currentRow + 2) &&
+                    !CheckForTile(currentCol - 1, currentRow + 3) &&
+                    !CheckForTile(currentCol + 0, currentRow + 3) &&
+                    !CheckForTile(currentCol + 1, currentRow + 3))
+                {
+                    retVal = false;
+                }
+            }
         }
         return retVal;
     }
@@ -186,10 +237,10 @@ public class GridManager : MonoBehaviour
     /// <param name="row"></param>
     /// <returns></returns>
     private bool CheckForTile(int col, int row)
-    {       
+    {
         GameObject go = GetNode(col, row);
         bool retVal = false;
-        if(go == null)
+        if (go == null)
         {
             retVal = true;
         }
@@ -221,8 +272,9 @@ public class GridManager : MonoBehaviour
     {
         if (!warning)
         {
-            Debug.Log("(" + col + ", " + row + ") -> " + message); 
-        } else
+            Debug.Log("(" + col + ", " + row + ") -> " + message);
+        }
+        else
         {
             Debug.LogWarning("(" + col + ", " + row + ") -> " + message);
         }
@@ -237,7 +289,7 @@ public class GridManager : MonoBehaviour
         GenerateFloorDimensions();
         for (int col = cols * room; col < (cols + cols * room); col++)
         {
-            
+
             for (int row = 0; row < rows; row++)
             {
                 if (row >= 0 && row < floorA)
@@ -330,7 +382,6 @@ public class GridManager : MonoBehaviour
             Debug.LogWarning("CreateTile je problem");
             return null;
         }
-        DebugLogTile(col, row, "radim tile", true);
         GameObject referenceTile = (GameObject)Resources.Load("TileDirt");
         Node node = referenceTile.GetComponent<Node>();
 
@@ -362,31 +413,32 @@ public class GridManager : MonoBehaviour
     /// <summary>
     /// Vraća željeni tile sa tim kordinatama.
     /// </summary>
-    /// <param name="posX"></param>
-    /// <param name="posY"></param>
+    /// <param name="col"></param>
+    /// <param name="row"></param>
     /// <returns>GameObject</returns>
-    public GameObject GetNode(int posX, int posY)
+    public GameObject GetNode(int col, int row)
     {
         GameObject retVal = null;
-        if (posX >= cols || posY >= rows || posX<0 || posY<0)
+        if (col >= cols * numberOfRooms || row >= rows || col < 0 || row < 0)
         {
             retVal = null;
-        } else
-        {
-            retVal = grid[posX, posY];
         }
-        
+        else
+        {
+            retVal = grid[col, row];
+        }
+
         return retVal;
     }
 
     /// <summary>
     /// Generira na kojim će se mjestima nalaziti katovi.
     /// </summary>
-    private void GenerateFloorDimensions() //POPRAVITI 
+    private void GenerateFloorDimensions()
     {
-        floorA = RandomNumber(4,4);
-        floorB = RandomNumber(floorA + floorSize, 10);
-        floorC = RandomNumber(floorB + floorSize, 15);
+        floorA = RandomNumber(4, 6);
+        floorB = RandomNumber(floorA + floorSize, 12);
+        floorC = RandomNumber(floorB + floorSize, 17);
         floorD = rows - 1;
     }
 
