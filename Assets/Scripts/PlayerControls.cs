@@ -34,6 +34,7 @@ public class PlayerControls : MonoBehaviour
 
     public void onJumpClick()
     {
+        animator.SetBool("Jump", true);
         characterController.Move(rigidbody2d.velocity.x * Time.fixedDeltaTime, false, true);
     }
     public void onSlideClick()

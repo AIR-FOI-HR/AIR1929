@@ -40,7 +40,7 @@ public class FlagController : MonoBehaviour
                 //2. IDLE Player motivation (IDLE)
                 Debug.Log("Sudar objekta sa zastavom.");
 
-                string runTimeString = runTime.Elapsed.Seconds + " seconds.";
+                string runTimeString = decimal.Round((decimal)runTime.Elapsed.TotalMilliseconds/1000,2)+ " seconds.";
                 Debug.Log(runTimeString);
 
                 RunTimeInformationText.text = "Run Information\nRun time: " + runTimeString + "";
