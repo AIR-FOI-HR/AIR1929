@@ -16,7 +16,7 @@ public class MainMenu : MonoBehaviour
     public void onPlay()
     {
         playSelectionController.GetComponent<PlayerSelectionController>().ReturnCurrentPlayer().SetActive(true);
-        SceneManager.LoadScene("WinterRun (Map)");
+        SceneManager.LoadScene("ProceduralMap");
     }
 
     public void onSettings()

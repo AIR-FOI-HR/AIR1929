@@ -106,15 +106,9 @@ public class PlayerControls : MonoBehaviour
     IEnumerator Countdown()
     {
         yield return new WaitForSeconds(1);
-        Debug.Log("3");
         yield return new WaitForSeconds(1);
-        Debug.Log("2");
         yield return new WaitForSeconds(1);
-        Debug.Log("1");
         yield return new WaitForSeconds(1);
-        Debug.Log("Go!");
-
-
         currentAcceleration = acceleration;
     }
 }

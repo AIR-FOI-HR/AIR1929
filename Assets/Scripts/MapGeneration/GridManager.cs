@@ -34,8 +34,6 @@ public class GridManager : MonoBehaviour
     {
         for (int i = 0; i < rooms; i++)
         {
-            Debug.Log(i);
-
             GenerateRoom(i);
             GenerateHoles(floorA, i);
             GenerateHoles(floorB, i);
