@@ -14,6 +14,7 @@ public class GridManager : MonoBehaviour
     public GameObject[,] grid = null;
 
     private int floorA, floorB, floorC, floorD;
+    private int floorDprevious = -1;
     System.Random rng = new System.Random();
 
     void Start()
@@ -56,9 +57,10 @@ public class GridManager : MonoBehaviour
         for (int col = cols * room; col < (cols + cols * room); col++)
         {
             GameObject go = grid[col, floor];
+            
             if (go.GetComponent<Node>().tileType == Node.TileType.dirt)
             {
-                if (floor != rows - 1)
+                if (floor != floorD)
                 {
                     if (RandomNumber(100) < 50)
                     {
@@ -101,18 +103,19 @@ public class GridManager : MonoBehaviour
                     currentRow = floor;
                     if (!CheckForObstacles(currentCol, currentRow, Direction.up))
                     {
-
+                        int upCounter = 0;
                         currentRow -= 1;
                         CreateTile(currentCol, currentRow, Node.TileType.dirt);
-                        DebugLogTile(currentCol, currentRow, "Stvaram gore", true);
+                        upCounter++;
                         for (int i = 0; i < RandomNumber(2, 4); i++)
                         {
-                            if (RandomNumber(100) < 50) //gore
+                            if (RandomNumber(100) < 50 && upCounter < 3) //gore
                             {
                                 if (!CheckForObstacles(currentCol, currentRow, Direction.up))
                                 {
                                     currentRow -= 1;
                                     CreateTile(currentCol, currentRow, Node.TileType.dirt);
+                                    upCounter++;
                                 }
                             }
                             else // desno
@@ -147,9 +150,9 @@ public class GridManager : MonoBehaviour
 
                         currentRow += 1;
                         CreateTile(currentCol, currentRow, Node.TileType.dirt);
-                        if(RandomNumber(100) < 50)
+                        if (RandomNumber(100) < 50)
                         {
-                            CreateTile(currentCol + 1, currentRow, Node.TileType.dirt);                            
+                            CreateTile(currentCol + 1, currentRow, Node.TileType.dirt);
                         }
                         for (int i = 0; i < RandomNumber(2, 4); i++)
                         {
@@ -439,7 +442,30 @@ public class GridManager : MonoBehaviour
         floorA = RandomNumber(4, 6);
         floorB = RandomNumber(floorA + floorSize, 12);
         floorC = RandomNumber(floorB + floorSize, 17);
-        floorD = rows - 1;
+        //Kod za zadnji floor
+        if(floorC + floorSize >= rows)
+        {
+            floorD = rows - 1;
+        }else
+        {
+            floorD = floorC + floorSize;
+        }
+        if (floorDprevious > 0)
+        {
+            if (floorD - floorC <= 4)
+            {
+                floorD = RandomNumber(floorC + floorSize, rows - 1);
+                if (floorDprevious - 2 >= floorD)
+                {
+                    floorD = floorDprevious - 1; 
+                }
+            } 
+        }
+        if (floorD >= rows) 
+        {
+            floorD = rows - 1;
+        } 
+        floorDprevious = floorD;
     }
 
     /// <summary>

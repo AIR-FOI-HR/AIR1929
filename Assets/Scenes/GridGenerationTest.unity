@@ -224,11 +224,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rows: 22
-  cols: 100
+  cols: 20
   tileSize: 1.28
-  numberOfRooms: 3
+  numberOfRooms: 20
   floorSize: 4
-  chaos: 10
+  chaos: 5
 --- !u!4 &438179197
 Transform:
   m_ObjectHideFlags: 0
