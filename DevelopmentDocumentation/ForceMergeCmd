@@ -1,0 +1,14 @@
+Domagoj Hamzić@DESKTOP-U45H2J5 MINGW64 ~ (master)
+$ cd Documents/UnityProjects/CrazyRunners
+
+Domagoj Hamzić@DESKTOP-U45H2J5 MINGW64 ~/Documents/UnityProjects/CrazyRunners (Development|MERGING)
+$ git checkout master
+Switched to branch 'master'
+Your branch is up to date with 'origin/master'.
+
+Domagoj Hamzić@DESKTOP-U45H2J5 MINGW64 ~/Documents/UnityProjects/CrazyRunners (master)
+$ git merge Development
+fatal: refusing to merge unrelated histories
+
+Domagoj Hamzić@DESKTOP-U45H2J5 MINGW64 ~/Documents/UnityProjects/CrazyRunners (master)
+$ git merge Development --allow-unrelated-histories
