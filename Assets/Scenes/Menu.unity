@@ -3393,6 +3393,7 @@ MonoBehaviour:
   listOfPlayers:
   - {fileID: 6397545629504687008, guid: 1abea255df279f04bb93de6b61fc0298, type: 3}
   - {fileID: 3286532231185226434, guid: 6fc4bfd2a9507134abdb324a75691d7f, type: 3}
+  - {fileID: 3694677591174637570, guid: aae00c5476f80d840b966fb6d2814154, type: 3}
   currentId: 0
   shownPlayer: {fileID: 1094295676}
   checkmark: {fileID: 1997922339}
