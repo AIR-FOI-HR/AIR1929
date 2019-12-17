@@ -7,8 +7,16 @@ public class PlayerSelectionController : MonoBehaviour
 {
     GameObject currentPlayer;
     public GameObject[] listOfPlayers;
-    public int currentId;
+    public int currentId = 0;
+    int selectedId = 0;
     public Image shownPlayer;
+    public GameObject checkmark;
+
+    void Start()
+    {
+        SetCurrentPlayer();
+        ShowCheckmark();
+    }
 
     /// <summary>
     /// Prijelaz na sljedećeg lika u izborniku Choose player
@@ -27,6 +35,7 @@ public class PlayerSelectionController : MonoBehaviour
             }
 
             ShowPlayer();
+            ShowCheckmark();
         }
     }
 
@@ -47,6 +56,7 @@ public class PlayerSelectionController : MonoBehaviour
             }
 
             ShowPlayer();
+            ShowCheckmark();
         }
     }
 
@@ -70,6 +80,20 @@ public class PlayerSelectionController : MonoBehaviour
                 Destroy(currentPlayer);
             currentPlayer = Instantiate(listOfPlayers[currentId], new Vector2(0, 0), Quaternion.identity);
             currentPlayer.SetActive(false);
+            selectedId = currentId;
+            ShowCheckmark();
+        }
+    }
+
+    void ShowCheckmark()
+    {
+        if (currentId == selectedId)
+        {
+            checkmark.SetActive(true);
+        }
+        else
+        {
+            checkmark.SetActive(false);
         }
     }
 
