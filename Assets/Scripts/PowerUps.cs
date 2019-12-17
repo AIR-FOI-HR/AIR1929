@@ -7,10 +7,13 @@ public class PowerUps : MonoBehaviour
 {
     private Inventory inventory;
     public GameObject itemButton;
+    public GameObject shield;
+    private Transform player;
 
     private void Start()
     {
         inventory = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<Inventory>();
+        player = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
     void OnTriggerEnter2D (Collider2D other)
@@ -42,8 +45,16 @@ public class PowerUps : MonoBehaviour
         if (gameObject.name == "powerup")
         {
             Debug.Log("Pokupljeno");
+            SpawnShield();
             Destroy(gameObject);
         }
         
+    }
+
+    private void SpawnShield()
+    {
+        GameObject newShield = Instantiate(shield, player.position, Quaternion.identity);
+        newShield.transform.SetParent(player);
+        Destroy(newShield,5);
     }
 }
