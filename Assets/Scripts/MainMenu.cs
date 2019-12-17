@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
-    public GameObject mainMenu, settings, choosePlayer, playSelectionController;
+    public GameObject mainMenu, settings, editPlayer, playSelectionController;
 
     public void Play()
     {
@@ -27,7 +27,7 @@ public class MainMenu : MonoBehaviour
 
     public void onEditPlayer()
     {
-        choosePlayer.SetActive(true);
+        editPlayer.SetActive(true);
         mainMenu.SetActive(false);
         playSelectionController.GetComponent<PlayerSelectionController>().ShowPlayer();
     }
@@ -35,6 +35,6 @@ public class MainMenu : MonoBehaviour
     {
         mainMenu.SetActive(true);
         settings.SetActive(false);
-        choosePlayer.SetActive(false);
+        editPlayer.SetActive(false);
     }
 }

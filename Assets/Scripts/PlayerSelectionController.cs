@@ -66,6 +66,8 @@ public class PlayerSelectionController : MonoBehaviour
     {
         if (listOfPlayers.Length != 0)
         {
+            if (currentPlayer)
+                Destroy(currentPlayer);
             currentPlayer = Instantiate(listOfPlayers[currentId], new Vector2(5, 3), Quaternion.identity);
             currentPlayer.SetActive(false);
         }

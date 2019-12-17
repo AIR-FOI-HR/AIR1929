@@ -2154,7 +2154,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainMenu: {fileID: 859079952}
   settings: {fileID: 772769304}
-  choosePlayer: {fileID: 876328864}
+  editPlayer: {fileID: 876328864}
   playSelectionController: {fileID: 2061306931}
 --- !u!1 &1094295675
 GameObject:
