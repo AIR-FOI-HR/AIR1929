@@ -18,7 +18,5 @@ public class Spawn : MonoBehaviour
         Vector2 playerPos = new Vector2(player.position.x-3, player.position.y);
         item.transform.localScale = vektor;
         Instantiate(item,playerPos,Quaternion.identity);
-        
-
     }
 }

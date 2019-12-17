@@ -1047,6 +1047,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterController: {fileID: 1444521458}
+  currentSpeed: 0
   maxSpeed: 30
   acceleration: 0.5
   animator: {fileID: 1444521457}
@@ -1312,6 +1313,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6968296235652510514, guid: 00b334c84a095a24f9b32db343910260,
+        type: 3}
+      propertyPath: m_TagString
+      value: Shield
       objectReference: {fileID: 0}
     - target: {fileID: 7150485957817578856, guid: 00b334c84a095a24f9b32db343910260,
         type: 3}

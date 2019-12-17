@@ -8,7 +8,7 @@ public class PlayerControls : MonoBehaviour
 {
     public CharacterController2D characterController;
     Rigidbody2D rigidbody2d;
-    float currentSpeed;
+    public float currentSpeed;
     public float maxSpeed;
     public float acceleration;
     float currentAcceleration;
