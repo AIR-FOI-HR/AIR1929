@@ -10,6 +10,9 @@ public class PlayerSelectionController : MonoBehaviour
     public int currentId;
     public Image shownPlayer;
 
+    /// <summary>
+    /// Prijelaz na sljedećeg lika u izborniku Choose player
+    /// </summary>
     public void ShowNextPlayer()
     {
         if (listOfPlayers.Length != 0)
@@ -27,6 +30,9 @@ public class PlayerSelectionController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Prijelaz na prethodnog lika u izborniku Choose player
+    /// </summary>
     public void ShowPreviousPlayer()
     {
         if (listOfPlayers.Length != 0)
@@ -44,12 +50,18 @@ public class PlayerSelectionController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Prikaz slike lika u izborniku
+    /// </summary>
     public void ShowPlayer()
     {
         shownPlayer.sprite = listOfPlayers[currentId].GetComponent<SpriteRenderer>().sprite;
         shownPlayer.SetNativeSize();
     }
 
+    /// <summary>
+    /// Postavi trenutnog lika kao lika kojim će se igrač utrkivati
+    /// </summary>
     public void SetCurrentPlayer()
     {
         if (listOfPlayers.Length != 0)
@@ -59,6 +71,10 @@ public class PlayerSelectionController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Vraća objekt lika kojeg je igrač odabrao
+    /// </summary>
+    /// <returns></returns>
     public GameObject ReturnCurrentPlayer()
     {
         return currentPlayer;

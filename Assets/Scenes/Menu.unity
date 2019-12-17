@@ -1449,7 +1449,7 @@ RectTransform:
   - {fileID: 509629646}
   - {fileID: 279734785}
   m_Father: {fileID: 1318907551}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1574,7 +1574,7 @@ GameObject:
   - component: {fileID: 870508988}
   - component: {fileID: 870508987}
   m_Layer: 5
-  m_Name: EditPlayerButton
+  m_Name: ChoosePlayerButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1701,7 +1701,7 @@ GameObject:
   - component: {fileID: 876328867}
   - component: {fileID: 876328866}
   m_Layer: 5
-  m_Name: EditPlayer
+  m_Name: ChoosePlayer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1733,7 +1733,7 @@ RectTransform:
   - {fileID: 242979675}
   - {fileID: 1467326020}
   m_Father: {fileID: 1318907551}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -2154,7 +2154,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainMenu: {fileID: 859079952}
   settings: {fileID: 772769304}
-  editPlayer: {fileID: 876328864}
+  choosePlayer: {fileID: 876328864}
   playSelectionController: {fileID: 2061306931}
 --- !u!1 &1094295675
 GameObject:
@@ -2258,8 +2258,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 859079953}
-  - {fileID: 772769305}
   - {fileID: 876328867}
+  - {fileID: 772769305}
   m_Father: {fileID: 1028371464}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2349,7 +2349,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: 8b8a419e66b90884f8386ab84bc697d9, type: 3}
-    m_FontSize: 50
+    m_FontSize: 40
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
@@ -2360,7 +2360,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Edit player
+  m_Text: Choose player
 --- !u!222 &1346755711
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2582,7 +2582,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Edit Player
+  m_Text: Choose Player
 --- !u!222 &1478642118
 CanvasRenderer:
   m_ObjectHideFlags: 0
