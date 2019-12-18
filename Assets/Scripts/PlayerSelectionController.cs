@@ -85,6 +85,9 @@ public class PlayerSelectionController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Prikaz kvačice kako bi se označilo koji lik je trenutno odabran
+    /// </summary>
     void ShowCheckmark()
     {
         if (currentId == selectedId)
@@ -100,7 +103,9 @@ public class PlayerSelectionController : MonoBehaviour
     /// <summary>
     /// Vraća objekt lika kojeg je igrač odabrao
     /// </summary>
-    /// <returns></returns>
+    /// <returns>
+    /// Vraća GameObject odabranog lika
+    /// </returns>
     public GameObject ReturnCurrentPlayer()
     {
         return currentPlayer;
