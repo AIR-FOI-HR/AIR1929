@@ -33,7 +33,6 @@ public class TrapsCollision : MonoBehaviour
         {
             other.gameObject.GetComponent<PlayerControls>().currentSpeed = 0;
         }
-
         Destroy(trigger);
     }
 }
