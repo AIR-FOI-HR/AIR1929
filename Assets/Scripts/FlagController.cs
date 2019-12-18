@@ -11,6 +11,9 @@ using System;
 using System.IO;
 using Assets.Scripts;
 
+/// <summary>
+/// Klasa koja obavlja operacije povezane sa kolizijom objekta sa zastavicom
+/// </summary>
 public class FlagController : MonoBehaviour
 {
     public GameObject StartGamePanel;
@@ -43,7 +46,10 @@ public class FlagController : MonoBehaviour
     {
 
     }
-
+    /// <summary>
+    /// Funkcija koja provjerava da li je završena trka te zove funkciju za dohvacanje i upisivanje podataka lokalno
+    /// </summary>
+    /// <param name="collider"></param>
     void OnTriggerEnter2D(Collider2D collider)
     {
         //Checking if a run is ended
@@ -57,7 +63,7 @@ public class FlagController : MonoBehaviour
                 //2. IDLE Player motivation (IDLE)
                 Debug.Log("Sudar objekta sa zastavom.");
 
-                
+
                 float runTimeFloat = (float)runTime.Elapsed.TotalMilliseconds / 1000;
                 string runTimeString = runTimeFloat.ToString("0.00");
                 Debug.Log(runTimeString);
@@ -80,6 +86,10 @@ public class FlagController : MonoBehaviour
         SceneManager.LoadScene("Menu");
     }
 
+    /// <summary>
+    /// Citanje podataka iz lokalne datoteke
+    /// </summary>
+    /// <returns></returns>
     List<Score> ReadLocalData()
     {
         List<Score> listOfScores = new List<Score>();
@@ -107,10 +117,14 @@ public class FlagController : MonoBehaviour
         return listOfScores;
     }
 
+    /// <summary>
+    /// Pisanje u lokalnu datoteku
+    /// </summary>
+    /// <param name="listOfScores"></param>
+    /// <param name="runTime"></param>
+    /// <param name="characterName"></param>
     void WriteResultToLocalFile(List<Score> listOfScores, float runTime, string characterName)
     {
-
-
         try
         {
             Map currentMap = new Map()

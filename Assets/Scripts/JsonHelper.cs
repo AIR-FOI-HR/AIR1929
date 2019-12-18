@@ -7,6 +7,9 @@ using UnityEngine;
 
 namespace Assets.Scripts
 {
+    /// <summary>
+    /// Klasa koja služi za serializaciju i deserializaciju objekta polja.
+    /// </summary>
     class JsonHelper
     {
         public static T[] FromJson<T>(string json)
