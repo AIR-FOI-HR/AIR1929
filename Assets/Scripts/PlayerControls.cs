@@ -20,7 +20,7 @@ public class PlayerControls : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        DontDestroyOnLoad(gameObject);
         currentSpeed = 0;
         currentAcceleration = 0;
         rigidbody2d = GetComponent<Rigidbody2D>();
@@ -44,7 +44,7 @@ public class PlayerControls : MonoBehaviour
             }
             animator.SetFloat("Speed", currentSpeed);
 
-            if (Input.GetButtonDown("Jump") == true)
+            if (Input.GetMouseButton(0) == true)
             {
                 jump = true;
                 animator.SetBool("Jump", true);
@@ -53,7 +53,6 @@ public class PlayerControls : MonoBehaviour
             if (Input.GetButtonDown("Crouch") == true)
             {
                 crouch = true;
-                //animator.setbool("crouch", true);
             }
             else if (Input.GetButtonUp("Crouch") == true)
             {
@@ -107,15 +106,9 @@ public class PlayerControls : MonoBehaviour
     IEnumerator Countdown()
     {
         yield return new WaitForSeconds(1);
-        Debug.Log("3");
         yield return new WaitForSeconds(1);
-        Debug.Log("2");
         yield return new WaitForSeconds(1);
-        Debug.Log("1");
         yield return new WaitForSeconds(1);
-        Debug.Log("Go!");
-
-
         currentAcceleration = acceleration;
     }
 }

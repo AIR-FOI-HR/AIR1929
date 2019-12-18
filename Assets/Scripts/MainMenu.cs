@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
-    public GameObject mainMenu, settings;
+    public GameObject mainMenu, settings, editPlayer, playSelectionController;
 
     public void Play()
     {
@@ -15,19 +15,26 @@ public class MainMenu : MonoBehaviour
 
     public void onPlay()
     {
-        SceneManager.LoadScene("WinterRun (Map)");
+        playSelectionController.GetComponent<PlayerSelectionController>().ReturnCurrentPlayer().SetActive(true);
+        SceneManager.LoadScene("ProceduralMap");
     }
 
     public void onSettings()
     {
-        Debug.Log("kliknut settings");
         settings.SetActive(true);
         mainMenu.SetActive(false);
     }
+
+    public void onEditPlayer()
+    {
+        editPlayer.SetActive(true);
+        mainMenu.SetActive(false);
+        playSelectionController.GetComponent<PlayerSelectionController>().ShowPlayer();
+    }
     public void onBack()
     {
-        Debug.Log("kliknut back");
         mainMenu.SetActive(true);
         settings.SetActive(false);
+        editPlayer.SetActive(false);
     }
 }

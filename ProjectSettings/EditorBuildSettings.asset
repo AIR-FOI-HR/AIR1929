@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SampleMap.unity
     guid: 6677c5aebf19147439407f3bd52adcd8
+  - enabled: 1
+    path: Assets/Scenes/ProceduralMap.unity
+    guid: 6c0e182d5a052c94fb95b73085a4023e
   m_configObjects: {}
