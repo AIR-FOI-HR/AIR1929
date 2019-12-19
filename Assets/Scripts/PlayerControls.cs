@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using UnityEngine;
@@ -8,14 +9,19 @@ public class PlayerControls : MonoBehaviour
 {
     public CharacterController2D characterController;
     Rigidbody2D rigidbody2d;
-    float currentSpeed;
-    public float maxSpeed;
-    public float acceleration;
-    float currentAcceleration;
+    public Animator animator;
+    private Vector2 startTouchPosition, endTouchPosition;
+
+    public float maxSpeed, acceleration, currentAcceleration, currentSpeed;
+
     bool jump = false;
     bool crouch = false;
-    public Animator animator;
     bool raceEnded = false;
+
+
+
+
+
 
     // Start is called before the first frame update
     void Start()
@@ -25,6 +31,16 @@ public class PlayerControls : MonoBehaviour
         currentAcceleration = 0;
         rigidbody2d = GetComponent<Rigidbody2D>();
         StartCoroutine(Countdown());
+    }
+
+    public void onJumpClick()
+    {
+        animator.SetBool("Jump", true);
+        characterController.Move(rigidbody2d.velocity.x * Time.fixedDeltaTime, false, true);
+    }
+    public void onSlideClick()
+    {
+        StartCoroutine(SlideAnimation());
     }
 
     // Update is called once per frame
@@ -43,8 +59,11 @@ public class PlayerControls : MonoBehaviour
                 currentSpeed = maxSpeed;
             }
             animator.SetFloat("Speed", currentSpeed);
+            //For Android
+            //SwipeCheck();
 
-            if (Input.GetMouseButton(0) == true)
+            //For Computer
+            if (Input.GetButtonDown("Jump") == true)
             {
                 jump = true;
                 animator.SetBool("Jump", true);
@@ -52,18 +71,14 @@ public class PlayerControls : MonoBehaviour
 
             if (Input.GetButtonDown("Crouch") == true)
             {
-                crouch = true;
-            }
-            else if (Input.GetButtonUp("Crouch") == true)
-            {
-                crouch = false;
-                //animator.SetBool("Crouch", false);
+                StartCoroutine(SlideAnimation());
             }
 
             rigidbody2d.velocity = new Vector2(currentSpeed, rigidbody2d.velocity.y);
 
         }
     }
+
     public void OnLanding()
     {
         animator.SetBool("Jump", false);
@@ -79,6 +94,7 @@ public class PlayerControls : MonoBehaviour
         characterController.Move(rigidbody2d.velocity.x * Time.fixedDeltaTime, crouch, jump);
         //After a successful jump we need to set jump attribute to the default value = false;
         jump = false;
+
     }
 
     void SlowDown()
@@ -103,6 +119,29 @@ public class PlayerControls : MonoBehaviour
         }
     }
 
+    private void SwipeCheck()
+    {
+
+        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
+        {
+            startTouchPosition = Input.GetTouch(0).position;
+        }
+        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended)
+        {
+            endTouchPosition = Input.GetTouch(0).position;
+            if (endTouchPosition.y > startTouchPosition.y && rigidbody2d.velocity.y == 0)
+            {
+                jump = true;
+
+            }
+            else if (endTouchPosition.y < startTouchPosition.y && rigidbody2d.velocity.y == 0)
+            {
+                StartCoroutine(SlideAnimation());
+            }
+        }
+
+    }
+
     IEnumerator Countdown()
     {
         yield return new WaitForSeconds(1);
@@ -111,4 +150,11 @@ public class PlayerControls : MonoBehaviour
         yield return new WaitForSeconds(1);
         currentAcceleration = acceleration;
     }
+    IEnumerator SlideAnimation()
+    {
+        crouch = true;
+        yield return new WaitForSeconds(0.500f);
+        crouch = false;
+    }
+
 }
