@@ -28,6 +28,7 @@ public class PlayerControls : MonoBehaviour
     /// </summary>
     void Start()
     {
+        DontDestroyOnLoad(gameObject);
         currentSpeed = 0;
         currentAcceleration = 0;
         rigidbody2d = GetComponent<Rigidbody2D>();
@@ -68,7 +69,6 @@ public class PlayerControls : MonoBehaviour
                 currentSpeed = maxSpeed;
             }
             animator.SetFloat("Speed", currentSpeed);
-
             //For Android
             //SwipeCheck();
 
@@ -177,15 +177,9 @@ public class PlayerControls : MonoBehaviour
     IEnumerator Countdown()
     {
         yield return new WaitForSeconds(1);
-        Debug.Log("3");
         yield return new WaitForSeconds(1);
-        Debug.Log("2");
         yield return new WaitForSeconds(1);
-        Debug.Log("1");
         yield return new WaitForSeconds(1);
-        Debug.Log("Go!");
-
-
         currentAcceleration = acceleration;
     }
     /// <summary>

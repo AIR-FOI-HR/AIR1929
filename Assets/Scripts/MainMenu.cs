@@ -5,29 +5,32 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
-    public GameObject mainMenu, settings;
+    public GameObject mainMenu, settings, choosePlayer, chooseGameMode, playSelectionController;
 
-    public void Play()
+    public void OpenSettings()
     {
-        Canvas canvas = settings.GetComponent<Canvas>();
-        canvas.enabled = false;
-    }
-
-    public void onPlay()
-    {
-        SceneManager.LoadScene("WinterRun (Map)");
-    }
-
-    public void onSettings()
-    {
-        Debug.Log("kliknut settings");
         settings.SetActive(true);
         mainMenu.SetActive(false);
     }
-    public void onBack()
+
+    public void OpenChoosePlayer()
     {
-        Debug.Log("kliknut back");
+        choosePlayer.SetActive(true);
+        mainMenu.SetActive(false);
+        playSelectionController.GetComponent<PlayerSelectionController>().ShowPlayer();
+    }
+
+    public void OpenChooseGameMode()
+    {
+        chooseGameMode.SetActive(true);
+        mainMenu.SetActive(false);
+    }
+
+    public void ReturnToMainMenu()
+    {
         mainMenu.SetActive(true);
         settings.SetActive(false);
+        choosePlayer.SetActive(false);
+        chooseGameMode.SetActive(false);
     }
 }
