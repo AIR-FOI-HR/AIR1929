@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using UnityEngine;
+using UnityEngine.UI;
 using Debug = UnityEngine.Debug;
 
 public class PlayerControls : MonoBehaviour
@@ -22,8 +23,9 @@ public class PlayerControls : MonoBehaviour
 
 
 
-
-    // Start is called before the first frame update
+    /// <summary>
+    /// Prva funkcija koja se pokrece
+    /// </summary>
     void Start()
     {
         DontDestroyOnLoad(gameObject);
@@ -33,17 +35,25 @@ public class PlayerControls : MonoBehaviour
         StartCoroutine(Countdown());
     }
 
+    /// <summary>
+    /// Funkcija koja se pokreće na android tipku
+    /// </summary>
     public void onJumpClick()
     {
         animator.SetBool("Jump", true);
         characterController.Move(rigidbody2d.velocity.x * Time.fixedDeltaTime, false, true);
     }
+    /// <summary>
+    /// Funkcija koja se pokreće na android tipku
+    /// </summary>
     public void onSlideClick()
     {
         StartCoroutine(SlideAnimation());
     }
 
-    // Update is called once per frame
+    /// <summary>
+    /// Funkcija koja se poziva svaki frame
+    /// </summary>
     void Update()
     {
         if (raceEnded)
@@ -79,16 +89,25 @@ public class PlayerControls : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Funkcija koja se poziva prilikom spuštanja na zemlju
+    /// </summary>
     public void OnLanding()
     {
         animator.SetBool("Jump", false);
     }
-
+    /// <summary>
+    /// Funkcija koja se poziva pritiskom tipke na tipkovnici (slide-anje)
+    /// </summary>
+    /// <param name="isCrouching"></param>
     public void OnCrouching(bool isCrouching)
     {
         animator.SetBool("Crouch", isCrouching);
     }
 
+    /// <summary>
+    /// Funkcija koja se pokrece cesce od Update frame-a
+    /// </summary>
     private void FixedUpdate()
     {
         characterController.Move(rigidbody2d.velocity.x * Time.fixedDeltaTime, crouch, jump);
@@ -97,6 +116,9 @@ public class PlayerControls : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Usporavanje nakon zavrsetka utrke
+    /// </summary>
     void SlowDown()
     {
         currentAcceleration = -0.1f;
@@ -109,7 +131,10 @@ public class PlayerControls : MonoBehaviour
     }
 
 
-
+    /// <summary>
+    /// Sudar sa zastavicom
+    /// </summary>
+    /// <param name="collider"></param>
     void OnTriggerEnter2D(Collider2D collider)
     {
 
@@ -119,6 +144,9 @@ public class PlayerControls : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Funckija koja prati swipe-anje po touch screen-u
+    /// </summary>
     private void SwipeCheck()
     {
 
@@ -142,6 +170,10 @@ public class PlayerControls : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Odbrojavanje prilikom pocetka utrke
+    /// </summary>
+    /// <returns></returns>
     IEnumerator Countdown()
     {
         yield return new WaitForSeconds(1);
@@ -150,6 +182,10 @@ public class PlayerControls : MonoBehaviour
         yield return new WaitForSeconds(1);
         currentAcceleration = acceleration;
     }
+    /// <summary>
+    /// Odredivanje trajanja slide-a
+    /// </summary>
+    /// <returns></returns>
     IEnumerator SlideAnimation()
     {
         crouch = true;
