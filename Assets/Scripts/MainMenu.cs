@@ -5,36 +5,32 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
-    public GameObject mainMenu, settings, editPlayer, playSelectionController;
+    public GameObject mainMenu, settings, choosePlayer, chooseGameMode, playSelectionController;
 
-    public void Play()
-    {
-        Canvas canvas = settings.GetComponent<Canvas>();
-        canvas.enabled = false;
-    }
-
-    public void onPlay()
-    {
-        playSelectionController.GetComponent<PlayerSelectionController>().ReturnCurrentPlayer().SetActive(true);
-        SceneManager.LoadScene("ProceduralMap");
-    }
-
-    public void onSettings()
+    public void OpenSettings()
     {
         settings.SetActive(true);
         mainMenu.SetActive(false);
     }
 
-    public void onEditPlayer()
+    public void OpenChoosePlayer()
     {
-        editPlayer.SetActive(true);
+        choosePlayer.SetActive(true);
         mainMenu.SetActive(false);
         playSelectionController.GetComponent<PlayerSelectionController>().ShowPlayer();
     }
-    public void onBack()
+
+    public void OpenChooseGameMode()
+    {
+        chooseGameMode.SetActive(true);
+        mainMenu.SetActive(false);
+    }
+
+    public void ReturnToMainMenu()
     {
         mainMenu.SetActive(true);
         settings.SetActive(false);
-        editPlayer.SetActive(false);
+        choosePlayer.SetActive(false);
+        chooseGameMode.SetActive(false);
     }
 }
