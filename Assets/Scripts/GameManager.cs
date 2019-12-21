@@ -7,7 +7,7 @@ public class GameManager : MonoBehaviour
 {
     void Start()
     {
-        SceneManager.LoadSceneAsync("SampleScene", LoadSceneMode.Additive);
+
     }
 
     void Update()
