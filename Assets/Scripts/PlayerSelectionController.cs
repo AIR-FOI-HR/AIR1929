@@ -14,6 +14,7 @@ public class PlayerSelectionController : MonoBehaviour
 
     void Start()
     {
+        Destroy(GameObject.FindGameObjectWithTag("Player"));
         SetCurrentPlayer();
         ShowCheckmark();
     }
