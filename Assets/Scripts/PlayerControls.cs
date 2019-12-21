@@ -40,8 +40,8 @@ public class PlayerControls : MonoBehaviour
     /// </summary>
     public void onJumpClick()
     {
+        jump = true;
         animator.SetBool("Jump", true);
-        characterController.Move(rigidbody2d.velocity.x * Time.fixedDeltaTime, false, true);
     }
     /// <summary>
     /// Funkcija koja se pokreće na android tipku

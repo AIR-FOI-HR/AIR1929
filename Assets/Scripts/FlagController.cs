@@ -19,9 +19,10 @@ public class FlagController : MonoBehaviour
     public GameObject StartGamePanel;
     public GameObject EndRacePanel;
     private Stopwatch runTime = new Stopwatch();
-    public Text CountdownText;
-    public Text RunTimeInformationText;
-    public Text Leaderboard;
+    public GameObject CountdownText;
+    public GameObject RunTimeInformationText;
+    public GameObject Leaderboard;
+    public GameObject ProgressBar;
     bool FirstCollision = false;
     public DateTime RunDate;
     public string CurrentMap;
@@ -38,13 +39,22 @@ public class FlagController : MonoBehaviour
         //Postavljanje rute za spremanje lokalnih podataka
         this.localPathForReadingWritingData = Application.persistentDataPath + "/score.txt";
 
+        StartGamePanel = GameObject.Find("StartRacePanel");
+        EndRacePanel = GameObject.Find("EndRacePanel");
+        Leaderboard = GameObject.Find("LeaderboardText");
+        RunTimeInformationText = GameObject.Find("RunInformationText");
+        CountdownText = GameObject.Find("CountdownText");
+        ProgressBar = GameObject.Find("ProgressBar");
+        EndRacePanel.SetActive(false);
+
         StartCoroutine(Countdown());
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        if (ProgressBar.activeSelf && ProgressBar.GetComponent<Slider>().value <= 1)
+            ProgressBar.GetComponent<Slider>().value = GameObject.FindGameObjectWithTag("Player").transform.position.x / transform.position.x;
     }
     /// <summary>
     /// Funkcija koja provjerava da li je završena trka te zove funkciju za dohvacanje i upisivanje podataka lokalno
@@ -73,7 +83,7 @@ public class FlagController : MonoBehaviour
                 WriteResultToLocalFile(listOfScores, runTimeFloat, characterName);
 
                 //Leaderboard.text = Application.persistentDataPath;
-                RunTimeInformationText.text = "Run Information\nRun time: " + runTimeString + "";
+                RunTimeInformationText.GetComponent<Text>().text = "Run time: " + runTimeString + "";
 
                 EndRacePanel.SetActive(true);
 
@@ -81,9 +91,22 @@ public class FlagController : MonoBehaviour
             FirstCollision = true;
         }
     }
-    void ReturnMainMenu()
+    public void ReturnMainMenu()
     {
+        Destroy(GameObject.FindGameObjectWithTag("Player"));
         SceneManager.LoadScene("Menu");
+    }
+
+    public void TryAgain()
+    {
+        //this code could work with additional 8 hours of work
+
+        /*GameObject player = GameObject.FindGameObjectWithTag("Player");
+        Destroy(GameObject.FindGameObjectWithTag("Player"));
+        int sceneindex = SceneManager.GetActiveScene().buildIndex;
+        GameObject newplayer = Instantiate(player, new Vector2(0, 1), Quaternion.identity);
+        DontDestroyOnLoad(newplayer);
+        SceneManager.LoadScene(sceneindex);*/
     }
 
     /// <summary>
@@ -152,10 +175,10 @@ public class FlagController : MonoBehaviour
             listOfScores.Add(score);
             listOfScores = listOfScores.OrderBy(t => t.RaceTime).ToList();
             int counter = 1;
-            Leaderboard.text = "Leaderboard\n\n";
+            Leaderboard.GetComponent<Text>().text = "Leaderboard\n\n";
             foreach (var race in listOfScores)
             {
-                Leaderboard.text = Leaderboard.text + counter + ". " + race.PlayerSettings.User + ": " + race.RaceTime.ToString("0.00") + "\n";
+                Leaderboard.GetComponent<Text>().text = Leaderboard.GetComponent<Text>().text + counter + ". " + race.PlayerSettings.User + ": " + race.RaceTime.ToString("0.00") + "\n";
                 counter++;
                 if (counter == 6)
                 {
@@ -188,7 +211,7 @@ public class FlagController : MonoBehaviour
         }
         catch (Exception ex)
         {
-            Leaderboard.text = "GRESKA." + ex.Message;
+            Leaderboard.GetComponent<Text>().text = "GRESKA." + ex.Message;
         }
 
 
@@ -196,15 +219,14 @@ public class FlagController : MonoBehaviour
     }
     IEnumerator Countdown()
     {
-        CountdownText.text = "";
+        CountdownText.GetComponent<Text>().text = "";
         yield return new WaitForSeconds(1);
-        CountdownText.text = "3";
+        CountdownText.GetComponent<Text>().text = "3";
         yield return new WaitForSeconds(1);
-        CountdownText.text = "2";
+        CountdownText.GetComponent<Text>().text = "2";
         yield return new WaitForSeconds(1);
-        CountdownText.text = "1";
+        CountdownText.GetComponent<Text>().text = "1";
         yield return new WaitForSeconds(1);
-        CountdownText.text = "";
         StartGamePanel.SetActive(false);
         runTime.Start();
     }
