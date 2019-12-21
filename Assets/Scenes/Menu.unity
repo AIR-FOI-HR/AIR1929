@@ -3152,9 +3152,11 @@ MonoBehaviour:
   - WinterRun (Map)
   - SampleMap
   - ProceduralMap
+  - Santa'sMarathoner
   thumbnails:
   - {fileID: 21300000, guid: 794c17684b33c064b8eefc679348a1e8, type: 3}
   - {fileID: 21300000, guid: e89e4c57705a90142b827792b0d630ac, type: 3}
+  - {fileID: 21300000, guid: ef462c48dc15cbb47922e13ed94b6a18, type: 3}
   - {fileID: 21300000, guid: ef462c48dc15cbb47922e13ed94b6a18, type: 3}
   mapName: {fileID: 232771000}
   mapImage: {fileID: 347819632}
