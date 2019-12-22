@@ -7,7 +7,7 @@ public class GameManager : MonoBehaviour
 {
     void Start()
     {
-        SceneManager.LoadSceneAsync("SampleScene", LoadSceneMode.Additive);
+
     }
 
     void Update()
@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.R))
         {
-            SceneManager.LoadScene("WinterRun (Map)");
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
     }
 }

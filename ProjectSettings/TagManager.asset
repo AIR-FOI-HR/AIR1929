@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Collectable
   - FlagController
+  - Shield
+  - Projectile
   layers:
   - Default
   - TransparentFX
@@ -16,7 +18,7 @@ TagManager:
   - 
   - 
   - Player
-  - 
+  - BackTiles
   - 
   - 
   - 
@@ -40,6 +42,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: BackTiles
+    uniqueID: 2850374529
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
