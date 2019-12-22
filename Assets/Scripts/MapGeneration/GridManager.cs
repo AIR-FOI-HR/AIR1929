@@ -150,7 +150,7 @@ public class GridManager : MonoBehaviour
                         CreateTile(currentCol, currentRow, Node.TileType.dirt);
                         if (RandomNumber(100) < 50)
                         {
-                            CreateTile(currentCol + 1, currentRow, Node.TileType.dirt);
+                            //CreateTile(currentCol + 1, currentRow, Node.TileType.dirt);
                         }
                         for (int i = 0; i < RandomNumber(2, 4); i++)
                         {
