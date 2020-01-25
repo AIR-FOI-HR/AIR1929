@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class GridManager : MonoBehaviour
 {
-    public int rows = 20;
+    public int rows = 22;
     public int cols = 100;
     public float tileSize = (float)1.28;
     public int numberOfRooms = 10;
@@ -23,6 +23,7 @@ public class GridManager : MonoBehaviour
         grid = new GameObject[cols * numberOfRooms, rows];
         GenerateMap(numberOfRooms);
         CheckForTop(); // vrh pretvaramo u snijeg
+        CreateEndOfMap(numberOfRooms);
         Debug.Log("End: " + System.DateTime.Now);
     }
 
@@ -148,7 +149,7 @@ public class GridManager : MonoBehaviour
 
                         currentRow += 1;
                         CreateTile(currentCol, currentRow, Node.TileType.dirt);
-                        if (RandomNumber(100) < 50)
+                        if (RandomNumber(100) < 50) // za šminku
                         {
                             //CreateTile(currentCol + 1, currentRow, Node.TileType.dirt);
                         }
@@ -433,6 +434,18 @@ public class GridManager : MonoBehaviour
     }
 
     /// <summary>
+    /// Vraća Vector2 poziciju odabranog čvora.
+    /// </summary>
+    /// <param name="col"></param>
+    /// <param name="row"></param>
+    /// <returns></returns>
+    public Vector2 GetPositionFromNode (float col, float row)
+    {
+        Vector2 position = new Vector2(col * tileSize, - row * tileSize);
+        return position;         
+    }
+
+    /// <summary>
     /// Generira na kojim će se mjestima nalaziti katovi.
     /// </summary>
     private void GenerateFloorDimensions()
@@ -464,6 +477,17 @@ public class GridManager : MonoBehaviour
             floorD = rows - 1;
         } 
         floorDprevious = floorD;
+    }
+
+    /// <summary>
+    /// Postavlja oznaku za kraj levela.
+    /// </summary>
+    /// <param name="numberOfRooms"></param>
+    private void CreateEndOfMap (int numberOfRooms)
+    {
+        GameObject flag = (GameObject)Resources.Load("Flag");
+        flag.transform.position = GetPositionFromNode(numberOfRooms * cols, rows - 1);
+        flag = (GameObject)Instantiate(flag);
     }
 
     /// <summary>
