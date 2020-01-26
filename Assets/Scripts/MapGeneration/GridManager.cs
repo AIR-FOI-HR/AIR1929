@@ -23,7 +23,9 @@ public class GridManager : MonoBehaviour
         grid = new GameObject[cols * numberOfRooms, rows];
         GenerateMap(numberOfRooms);
         CheckForTop(); // vrh pretvaramo u snijeg
+
         CreateEndOfMap(numberOfRooms);
+
         Debug.Log("End: " + System.DateTime.Now);
     }
 
@@ -43,6 +45,7 @@ public class GridManager : MonoBehaviour
             GenerateObstacles(floorB, i);
             GenerateObstacles(floorC, i);
             GenerateObstacles(floorD, i);
+            GenerateTraps(i);
         }
     }
 
@@ -82,6 +85,34 @@ public class GridManager : MonoBehaviour
     }
 
     /// <summary>
+    /// Generira zamke u toj sobi.
+    /// </summary>
+    /// <param name="room"></param>
+    private void GenerateTraps(int room)
+    {
+        for (int col = cols * room; col < (cols + cols * room); col++)
+        {
+            for (int row = 0; row < rows; row++)
+            {
+                if (RandomNumber(100) < chaos)
+                {
+                    GameObject go = GetNode(col, row);
+                    if (go.GetComponent<Node>().tileType == Node.TileType.empty &&
+                        (GetNode(col, row + 1).GetComponent<Node>().tileType == Node.TileType.dirt ||
+                        GetNode(col, row + 1).GetComponent<Node>().tileType == Node.TileType.snow))
+                    {
+                        if (!CheckForTraps(col, row, Node.TileType.trapSpikes))
+                        {
+                            CreateTile(col, row, Node.TileType.trapSpikes);
+                        }
+                    } 
+                }
+            }
+        }
+    }
+
+
+    /// <summary>
     /// Stvara se prepreka na tim kordinatama. Direction označuje s koje strane kata
     /// će se stvoriti prepreka.
     /// </summary>
@@ -104,7 +135,6 @@ public class GridManager : MonoBehaviour
                     {
                         int upCounter = 0;
                         currentRow -= 1;
-                        CreateTile(currentCol, currentRow, Node.TileType.dirt);
                         upCounter++;
                         for (int i = 0; i < RandomNumber(2, 4); i++)
                         {
@@ -226,6 +256,38 @@ public class GridManager : MonoBehaviour
                 {
                     retVal = false;
                 }
+            }
+        }
+        return retVal;
+    }
+
+    /// <summary>
+    /// Vraća true ako postoje prepreke za postavljanje nove zamke.
+    /// </summary>
+    /// <param name="col"></param>
+    /// <param name="row"></param>
+    /// <param name="trapType"></param>
+    /// <returns></returns>
+    private bool CheckForTraps(int col, int row, Node.TileType trapType)
+    {
+        bool retVal = true;
+        int currentCol = col;
+        int currentRow = row;
+        if(trapType == Node.TileType.trapSpikes)
+        {
+            if (!CheckForTile(currentCol - 1, currentRow - 1) &&
+                !CheckForTile(currentCol + 0, currentRow - 1) &&
+                !CheckForTile(currentCol + 1, currentRow - 1) &&
+
+                !CheckForTile(currentCol - 1, currentRow - 2) &&
+                !CheckForTile(currentCol + 0, currentRow - 2) &&
+                !CheckForTile(currentCol + 1, currentRow - 2) &&
+
+                !CheckForTile(currentCol - 1, currentRow - 3) &&
+                !CheckForTile(currentCol + 0, currentRow - 3) &&
+                !CheckForTile(currentCol + 1, currentRow - 3))
+            {
+                retVal = false;
             }
         }
         return retVal;

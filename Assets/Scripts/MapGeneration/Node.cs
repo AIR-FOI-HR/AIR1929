@@ -26,6 +26,9 @@ public class Node : MonoBehaviour
             case TileType.snow:
                 referenceTile = (GameObject)Instantiate(Resources.Load("TileSnow"));
                 break;
+            case TileType.trapSpikes:
+                referenceTile = (GameObject)Instantiate(Resources.Load("TrapSpikes"));
+                break;
             case TileType.empty:
                 referenceTile = (GameObject)Instantiate(Resources.Load("TileEmpty"));
                 break;
@@ -40,6 +43,7 @@ public class Node : MonoBehaviour
     {
         dirt,
         snow,
+        trapSpikes,
         empty
     }
 
