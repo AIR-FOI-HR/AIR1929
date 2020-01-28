@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class Settings : MonoBehaviour
 {
     public Slider volumeSlider;
+    public InputField nameField;
     public GameObject mute, unmute;
 
     void Start()
@@ -41,5 +42,11 @@ public class Settings : MonoBehaviour
         mute.SetActive(false);
         unmute.SetActive(true);
         volumeSlider.value = 1;
+    }
+
+    public void SavePlayerName()
+    {
+        //ovdje spremaš ime u datoteku
+        // nameField.text   -> ovo spremaš
     }
 }
