@@ -8,7 +8,7 @@ public class FinishWinterRun : MonoBehaviour, IAchievement {
 	public Sprite ImageNotAchieved { get; set; }
 	public bool Achieved { get; set; }
 	public string TargetObjectName { get; set; } = "WinterRunFlag";
-	public string[] EligibleScenes { get; set; } = { "WinterRun" };
+	public string[] EligibleScenes { get; set; } = { "WinterRun (Map)" };
 
 
 	public void Initialize() {
