@@ -21,9 +21,9 @@ public class GridManager : MonoBehaviour
     {
         Debug.Log("Start: " + System.DateTime.Now);
         grid = new GameObject[cols * numberOfRooms, rows];
+        
         GenerateMap(numberOfRooms);
-        CheckForTop(); // vrh pretvaramo u snijeg
-
+        CheckForTop(); 
         CreateEndOfMap(numberOfRooms);
 
         Debug.Log("End: " + System.DateTime.Now);
@@ -46,6 +46,7 @@ public class GridManager : MonoBehaviour
             GenerateObstacles(floorC, i);
             GenerateObstacles(floorD, i);
             GenerateTraps(i);
+            GeneratePowerUps(i);
         }
     }
 
@@ -111,6 +112,27 @@ public class GridManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Generiraju se pojačanja u toj sobi.
+    /// </summary>
+    /// <param name="room"></param>
+    private void GeneratePowerUps(int room)
+    {
+        for (int col = cols * room; col < (cols + cols * room); col++)
+        {
+            for (int row = 0; row < rows; row++)
+            {
+                if (RandomNumber(2500) < chaos)
+                {
+                    GameObject go = GetNode(col, row);
+                    if (go.GetComponent<Node>().tileType == Node.TileType.empty)
+                    {
+                        CreatePowerUp(col, row);
+                    }
+                }
+            }
+        }
+    }
 
     /// <summary>
     /// Stvara se prepreka na tim kordinatama. Direction označuje s koje strane kata
@@ -195,6 +217,28 @@ public class GridManager : MonoBehaviour
                     }
                 }
             }
+        }
+    }
+
+    /// <summary>
+    /// Stvara se random power up na tim kordinatama.
+    /// </summary>
+    /// <param name="col"></param>
+    /// <param name="row"></param>
+    private void CreatePowerUp(int col, int row)
+    {
+        int broj = RandomNumber(1, 3);
+        switch (broj)
+        {
+            case 1:
+                CreateTile(col, row, Node.TileType.powerUpShield);
+                break;
+            case 2:
+                CreateTile(col, row, Node.TileType.powerUpMine);
+                break;
+            case 3:
+                CreateTile(col, row, Node.TileType.powerUpRocket);
+                break;
         }
     }
 
@@ -560,7 +604,7 @@ public class GridManager : MonoBehaviour
     /// <returns>int</returns>
     public int RandomNumber(int min, int max)
     {
-        int number = rng.Next(min, max);
+        int number = rng.Next(min, max+1);
         return number;
     }
 

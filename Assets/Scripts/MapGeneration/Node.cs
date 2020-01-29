@@ -4,12 +4,6 @@ using UnityEngine;
 
 public class Node : MonoBehaviour
 {
-    void Start()
-    {
- 
-    }
-
-
     /// <summary>
     /// Stvara novi node sa odabranim tipom.
     /// </summary>
@@ -29,6 +23,16 @@ public class Node : MonoBehaviour
             case TileType.trapSpikes:
                 referenceTile = (GameObject)Instantiate(Resources.Load("TrapSpikes"));
                 break;
+            case TileType.powerUpRocket:
+                referenceTile = (GameObject)Instantiate(Resources.Load("PowerUpRocket"));
+                break;
+            case TileType.powerUpMine:
+                referenceTile = (GameObject)Instantiate(Resources.Load("PowerUpMine"));
+                break;
+            case TileType.powerUpShield:
+                referenceTile = (GameObject)Instantiate(Resources.Load("PowerUpShield"));
+                break;
+
             case TileType.empty:
                 referenceTile = (GameObject)Instantiate(Resources.Load("TileEmpty"));
                 break;
@@ -44,7 +48,9 @@ public class Node : MonoBehaviour
         dirt,
         snow,
         trapSpikes,
+        powerUpRocket,
+        powerUpMine,
+        powerUpShield,
         empty
     }
-
 }
