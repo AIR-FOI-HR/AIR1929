@@ -7,7 +7,6 @@ public interface IAchievement {
 	Sprite ImageAchieved { get; set; }
 	Sprite ImageNotAchieved { get; set; }
 	bool Achieved { get; set; }
-	UnityEvent Listener { get; set; }
 	string TargetObjectName { get; set; }
 
 	void Initialize();

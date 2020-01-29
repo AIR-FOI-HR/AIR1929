@@ -13,7 +13,9 @@ public class AchievementMaster : MonoBehaviour {
 		DontDestroyOnLoad(gameObject);
 
 		achivements = new List<IAchievement>() {
-			gameObject.AddComponent<FinishWinterRun>()
+			gameObject.AddComponent<FinishWinterRun>(),
+			gameObject.AddComponent<FinishSantasMarathoner>(),
+			gameObject.AddComponent<FinishSampleMap>()
 		};
 
 		GetUnachievedCollection();

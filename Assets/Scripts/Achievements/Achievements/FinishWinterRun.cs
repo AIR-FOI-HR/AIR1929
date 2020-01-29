@@ -7,7 +7,6 @@ public class FinishWinterRun : MonoBehaviour, IAchievement {
 	public Sprite ImageAchieved { get; set; }
 	public Sprite ImageNotAchieved { get; set; }
 	public bool Achieved { get; set; }
-	public UnityEvent Listener { get; set; }
 	public string TargetObjectName { get; set; } = "WinterRunFlag";
 
 
