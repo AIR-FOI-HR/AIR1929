@@ -79,7 +79,7 @@ public class PlayerSelectionController : MonoBehaviour
         {
             if (currentPlayer)
                 Destroy(currentPlayer);
-            currentPlayer = Instantiate(listOfPlayers[currentId], new Vector2(0, 1), Quaternion.identity);
+            currentPlayer = Instantiate(listOfPlayers[currentId], new Vector2(0, 2), Quaternion.identity);
             currentPlayer.SetActive(false);
             selectedId = currentId;
             ShowCheckmark();

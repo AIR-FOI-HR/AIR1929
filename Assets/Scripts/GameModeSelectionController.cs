@@ -144,6 +144,7 @@ public class GameModeSelectionController : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         feedbackText.text += "\nJoined room. Current count: " + PhotonNetwork.CurrentRoom.PlayerCount + " player(s).";
-        //PhotonNetwork.LoadLevel(maps[currentId]);
+        playerSelectionController.GetComponent<PlayerSelectionController>().ReturnCurrentPlayer().SetActive(true);
+        PhotonNetwork.LoadLevel(maps[currentId]);
     }
 }

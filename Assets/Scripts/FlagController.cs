@@ -47,7 +47,7 @@ public class FlagController : MonoBehaviour
         ProgressBar = GameObject.Find("ProgressBar");
         EndRacePanel.SetActive(false);
 
-        StartCoroutine(Countdown());
+        //StartCoroutine(Countdown());
     }
 
     // Update is called once per frame
@@ -63,33 +63,33 @@ public class FlagController : MonoBehaviour
     void OnTriggerEnter2D(Collider2D collider)
     {
         //Checking if a run is ended
-        if (FirstCollision == false)
-        {
-            if (collider.gameObject.tag == "Player")
-            {
-                string characterName = collider.name;
+        //if (FirstCollision == false)
+        //{
+        //    if (collider.gameObject.tag == "Player")
+        //    {
+        //        string characterName = collider.name;
 
-                //1. Open panel with run information
-                //2. IDLE Player motivation (IDLE)
-                Debug.Log("Sudar objekta sa zastavom.");
+        //        //1. Open panel with run information
+        //        //2. IDLE Player motivation (IDLE)
+        //        Debug.Log("Sudar objekta sa zastavom.");
 
 
-                float runTimeFloat = (float)runTime.Elapsed.TotalMilliseconds / 1000;
-                string runTimeString = runTimeFloat.ToString("0.00");
-                Debug.Log(runTimeString);
+        //        float runTimeFloat = (float)runTime.Elapsed.TotalMilliseconds / 1000;
+        //        string runTimeString = runTimeFloat.ToString("0.00");
+        //        Debug.Log(runTimeString);
 
-                //Zapisi podatke u Log
-                List<Score> listOfScores = ReadLocalData();
-                WriteResultToLocalFile(listOfScores, runTimeFloat, characterName);
+        //        //Zapisi podatke u Log
+        //        List<Score> listOfScores = ReadLocalData();
+        //        WriteResultToLocalFile(listOfScores, runTimeFloat, characterName);
 
-                //Leaderboard.text = Application.persistentDataPath;
-                RunTimeInformationText.GetComponent<Text>().text = "Run time: " + runTimeString + "";
+        //        //Leaderboard.text = Application.persistentDataPath;
+        //        RunTimeInformationText.GetComponent<Text>().text = "Run time: " + runTimeString + "";
 
-                EndRacePanel.SetActive(true);
+        //        EndRacePanel.SetActive(true);
 
-            }
-            FirstCollision = true;
-        }
+        //    }
+        //    FirstCollision = true;
+        //}
     }
     public void ReturnMainMenu()
     {

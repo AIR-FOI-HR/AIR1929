@@ -6,7 +6,11 @@ using UnityEngine;
 using UnityEngine.UI;
 using Debug = UnityEngine.Debug;
 
-public class PlayerControls : MonoBehaviour
+using Photon.Realtime;
+using Photon.Pun;
+using Assets.Scripts.ERA;
+
+public class PlayerControls : MonoBehaviourPunCallbacks
 {
     public CharacterController2D characterController;
     Rigidbody2D rigidbody2d;
@@ -18,7 +22,12 @@ public class PlayerControls : MonoBehaviour
     bool jump = false;
     bool crouch = false;
     bool raceEnded = false;
+    bool firstColision = false;
 
+    public GameObject startRaceButton;
+    public GameObject endRacePanel;
+    public GameObject startPanel;
+    public GameObject countDownText;
 
 
 
@@ -28,10 +37,30 @@ public class PlayerControls : MonoBehaviour
     /// </summary>
     void Start()
     {
+        startRaceButton.SetActive(false);
         DontDestroyOnLoad(gameObject);
         currentSpeed = 0;
         currentAcceleration = 0;
         rigidbody2d = GetComponent<Rigidbody2D>();
+
+        ///Ukoliko je photon network povezan i ukoliko je master klijent spojen. (Master klijent je prvi klijent koji je usao u sobu).
+        if (PhotonNetwork.IsConnected)
+        {
+            ///Multiplayer
+            if (PhotonNetwork.IsMasterClient)
+            {
+                startRaceButton.SetActive(true);
+            }
+        }
+        else
+        {
+            ///Singleplayer
+            StartGame();
+        }
+    }
+    public void StartGame()
+    {
+        startRaceButton.SetActive(false);
         StartCoroutine(Countdown());
     }
 
@@ -140,7 +169,35 @@ public class PlayerControls : MonoBehaviour
 
         if (collider.gameObject.tag == "FlagController")
         {
-            raceEnded = true;
+            if (firstColision == false)
+            {
+
+                string characterName = collider.name;
+
+                //1. Open panel with run information
+                //2. IDLE Player motivation (IDLE)
+                Debug.Log("Sudar objekta sa zastavom.");
+
+
+                //float runTimeFloat = (float)runTime.Elapsed.TotalMilliseconds / 1000;
+                //string runTimeString = runTimeFloat.ToString("0.00");
+                //Debug.Log(runTimeString);
+
+                ////Zapisi podatke u Log
+                //List<Score> listOfScores = ReadLocalData();
+                //WriteResultToLocalFile(listOfScores, runTimeFloat, characterName);
+
+                ////Leaderboard.text = Application.persistentDataPath;
+                //RunTimeInformationText.GetComponent<Text>().text = "Run time: " + runTimeString + "";
+
+                endRacePanel.SetActive(true);
+
+
+                firstColision = true;
+                raceEnded = true;
+            }
+
+
         }
     }
 
@@ -176,10 +233,16 @@ public class PlayerControls : MonoBehaviour
     /// <returns></returns>
     IEnumerator Countdown()
     {
+        countDownText.GetComponent<Text>().text = "";
         yield return new WaitForSeconds(1);
+        countDownText.GetComponent<Text>().text = "3";
         yield return new WaitForSeconds(1);
+        countDownText.GetComponent<Text>().text = "2";
         yield return new WaitForSeconds(1);
+        countDownText.GetComponent<Text>().text = "1";
         yield return new WaitForSeconds(1);
+        startPanel.SetActive(false);
+        //runTime.Start();
         currentAcceleration = acceleration;
     }
     /// <summary>
