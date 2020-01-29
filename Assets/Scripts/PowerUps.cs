@@ -11,7 +11,7 @@ public class PowerUps : MonoBehaviour
     public GameObject itemButton;
     public GameObject shield;
     private Transform player;
-    public AudioClip shieldSound, explosionSound;
+    public AudioClip shieldSound;
 
     private void Start()
     {
@@ -61,8 +61,8 @@ public class PowerUps : MonoBehaviour
         Destroy(newShield,shieldTimer);
     }
 
-    private void PlaySound(AudioClip audio)
+    public void PlaySound(AudioClip audio)
     {
-        AudioSource.PlayClipAtPoint(audio, transform.position);
+        AudioSource.PlayClipAtPoint(audio, player.position);
     }
 }
