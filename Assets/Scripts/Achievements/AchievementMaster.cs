@@ -29,15 +29,12 @@ public class AchievementMaster : MonoBehaviour {
 	}
 
 	void GetUnachievedCollection() {
-		List<IAchievement> toDestroyAchieved = new List<IAchievement>();
+		List<IAchievement> achieved = new List<IAchievement>();
 		foreach (var ach in achivements) {
 			ach.Initialize();
-			if (ach.Achieved) toDestroyAchieved.Add(ach);
+			if (ach.Achieved) achieved.Add(ach);
 		}
-		foreach (var ach in achivements) {
-			Destroy(gameObject.GetComponent(ach.GetType()));
-		}
-		achivements = achivements.Except(toDestroyAchieved).ToList();
+		achivements = achivements.Except(achieved).ToList();
 	}
 
 	void DistributeAchivements() {
