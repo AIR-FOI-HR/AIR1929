@@ -9,6 +9,7 @@ public class WinterRunJumper : MonoBehaviour, IAchievement {
 	public Sprite ImageNotAchieved { get; set; }
 	public bool Achieved { get; set; }
 	public string TargetObjectName { get; set; } = "FemaleNinja";
+	public string[] EligibleScenes { get; set; } = { "WinterRun" };
 
 	public void Initialize() {
 		if (PPAchivements.LoadAchievement(Name) < 15) {

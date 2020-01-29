@@ -8,6 +8,7 @@ public interface IAchievement {
 	Sprite ImageNotAchieved { get; set; }
 	bool Achieved { get; set; }
 	string TargetObjectName { get; set; }
+	string[] EligibleScenes { get; set; }
 
 	void Initialize();
 }

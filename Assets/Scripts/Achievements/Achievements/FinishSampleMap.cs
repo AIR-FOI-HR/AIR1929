@@ -9,6 +9,7 @@ public class FinishSampleMap : MonoBehaviour, IAchievement {
 	public Sprite ImageNotAchieved { get; set; }
 	public bool Achieved { get; set; }
 	public string TargetObjectName { get; set; } = "SampleMapFlag";
+	public string[] EligibleScenes { get; set; } = { "SampleScene" };
 
 	public void Initialize() {
 		if (PPAchivements.LoadAchievement(Name) == 0) {

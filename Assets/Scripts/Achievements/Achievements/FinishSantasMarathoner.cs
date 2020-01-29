@@ -10,6 +10,7 @@ public class FinishSantasMarathoner : MonoBehaviour, IAchievement {
 	public Sprite ImageNotAchieved { get; set; }
 	public bool Achieved { get; set; }
 	public string TargetObjectName { get; set; } = "SantasMarathonerFlag";
+	public string[] EligibleScenes { get; set; } = { "Santa'sMarathoner" };
 
 	public void Initialize() {
 		if (PPAchivements.LoadAchievement(Name) == 0) {
