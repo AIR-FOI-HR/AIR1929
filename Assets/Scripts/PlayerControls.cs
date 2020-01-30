@@ -18,7 +18,8 @@ public class PlayerControls : MonoBehaviour
     bool jump = false;
     bool crouch = false;
     bool raceEnded = false;
-
+    bool raceStarted = false;
+    GameObject runMonitor;
 
 
 
@@ -28,11 +29,13 @@ public class PlayerControls : MonoBehaviour
     /// </summary>
     void Start()
     {
-        DontDestroyOnLoad(gameObject);
+        //DontDestroyOnLoad(gameObject);
         currentSpeed = 0;
         currentAcceleration = 0;
         rigidbody2d = GetComponent<Rigidbody2D>();
         StartCoroutine(Countdown());
+        runMonitor = GameObject.Find("RunMonitor");
+
     }
 
     /// <summary>
@@ -56,6 +59,12 @@ public class PlayerControls : MonoBehaviour
     /// </summary>
     void Update()
     {
+        if (runMonitor.GetComponent<RunMonitor>().raceStarted)
+        {
+            Debug.Log("Unutra smo");
+            currentAcceleration = acceleration;
+        }
+
         if (raceEnded)
         {
             SlowDown();
@@ -180,7 +189,7 @@ public class PlayerControls : MonoBehaviour
         yield return new WaitForSeconds(1);
         yield return new WaitForSeconds(1);
         yield return new WaitForSeconds(1);
-        currentAcceleration = acceleration;
+        //currentAcceleration = acceleration;
     }
     /// <summary>
     /// Odredivanje trajanja slide-a

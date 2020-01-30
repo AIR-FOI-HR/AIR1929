@@ -32,29 +32,29 @@ public class FlagController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        ///Postavljanje datuma i vremena utrke
-        this.RunDate = DateTime.Now;
-        ///Dohvaćanje mape trke
-        this.CurrentMap = SceneManager.GetActiveScene().name;
-        //Postavljanje rute za spremanje lokalnih podataka
-        this.localPathForReadingWritingData = Application.persistentDataPath + "/score.txt";
+        /////Postavljanje datuma i vremena utrke
+        //this.RunDate = DateTime.Now;
+        /////Dohvaćanje mape trke
+        //this.CurrentMap = SceneManager.GetActiveScene().name;
+        ////Postavljanje rute za spremanje lokalnih podataka
+        //this.localPathForReadingWritingData = Application.persistentDataPath + "/score.txt";
 
-        StartGamePanel = GameObject.Find("StartRacePanel");
-        EndRacePanel = GameObject.Find("EndRacePanel");
-        Leaderboard = GameObject.Find("LeaderboardText");
-        RunTimeInformationText = GameObject.Find("RunInformationText");
-        CountdownText = GameObject.Find("CountdownText");
-        ProgressBar = GameObject.Find("ProgressBar");
-        EndRacePanel.SetActive(false);
+        //StartGamePanel = GameObject.Find("StartRacePanel");
+        //EndRacePanel = GameObject.Find("EndRacePanel");
+        //Leaderboard = GameObject.Find("LeaderboardText");
+        //RunTimeInformationText = GameObject.Find("RunInformationText");
+        //CountdownText = GameObject.Find("CountdownText");
+        //ProgressBar = GameObject.Find("ProgressBar");
+        //EndRacePanel.SetActive(false);
 
-        StartCoroutine(Countdown());
+        //StartCoroutine(Countdown());
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (ProgressBar.activeSelf && ProgressBar.GetComponent<Slider>().value <= 1)
-            ProgressBar.GetComponent<Slider>().value = GameObject.FindGameObjectWithTag("Player").transform.position.x / transform.position.x;
+        //if (ProgressBar.activeSelf && ProgressBar.GetComponent<Slider>().value <= 1)
+           // ProgressBar.GetComponent<Slider>().value = GameObject.FindGameObjectWithTag("Player").transform.position.x / transform.position.x;
     }
     /// <summary>
     /// Funkcija koja provjerava da li je završena trka te zove funkciju za dohvacanje i upisivanje podataka lokalno
@@ -85,7 +85,7 @@ public class FlagController : MonoBehaviour
                 //Leaderboard.text = Application.persistentDataPath;
                 RunTimeInformationText.GetComponent<Text>().text = "Run time: " + runTimeString + "";
 
-                EndRacePanel.SetActive(true);
+                //EndRacePanel.SetActive(true);s
 
             }
             FirstCollision = true;

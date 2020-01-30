@@ -137,13 +137,13 @@ public class GameModeSelectionController : MonoBehaviourPunCallbacks
 
     public override void OnDisconnected(DisconnectCause cause)
     {
-        feedbackText.text += "\nDisconnected because " + cause;
+
         isConnecting = false;
     }
 
     public override void OnJoinedRoom()
     {
         feedbackText.text += "\nJoined room. Current count: " + PhotonNetwork.CurrentRoom.PlayerCount + " player(s).";
-        //PhotonNetwork.LoadLevel(maps[currentId]);
+        PhotonNetwork.LoadLevel(maps[currentId]);
     }
 }

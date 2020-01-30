@@ -16,6 +16,7 @@ public class PlayerSelectionController : MonoBehaviour
     {
         Destroy(GameObject.FindGameObjectWithTag("Player"));
         SetCurrentPlayer();
+        PlayerPrefs.SetInt("PlayerIndex", currentId);
         ShowCheckmark();
     }
 
@@ -83,6 +84,7 @@ public class PlayerSelectionController : MonoBehaviour
             currentPlayer.SetActive(false);
             selectedId = currentId;
             ShowCheckmark();
+            PlayerPrefs.SetInt("PlayerIndex", currentId);
         }
     }
 
