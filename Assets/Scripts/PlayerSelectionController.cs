@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class PlayerSelectionController : MonoBehaviour
 {
-    GameObject currentPlayer;
     public GameObject[] listOfPlayers;
     public int currentId = 0;
     int selectedId = 0;
@@ -14,9 +13,16 @@ public class PlayerSelectionController : MonoBehaviour
 
     void Start()
     {
-        Destroy(GameObject.FindGameObjectWithTag("Player"));
         SetCurrentPlayer();
-        PlayerPrefs.SetInt("PlayerIndex", currentId);
+        if (PlayerPrefs.HasKey("PlayerIndex"))
+        {
+            currentId = PlayerPrefs.GetInt("PlayerIndex");
+            PlayerPrefs.SetInt("PlayerIndex", currentId);
+        }
+        else
+        {
+            PlayerPrefs.SetInt("PlayerIndex", currentId);
+        }
         ShowCheckmark();
     }
 
@@ -78,10 +84,6 @@ public class PlayerSelectionController : MonoBehaviour
     {
         if (listOfPlayers.Length != 0)
         {
-            if (currentPlayer)
-                Destroy(currentPlayer);
-            currentPlayer = Instantiate(listOfPlayers[currentId], new Vector2(0, 1), Quaternion.identity);
-            currentPlayer.SetActive(false);
             selectedId = currentId;
             ShowCheckmark();
             PlayerPrefs.SetInt("PlayerIndex", currentId);
@@ -101,16 +103,5 @@ public class PlayerSelectionController : MonoBehaviour
         {
             checkmark.SetActive(false);
         }
-    }
-
-    /// <summary>
-    /// Vraća objekt lika kojeg je igrač odabrao
-    /// </summary>
-    /// <returns>
-    /// Vraća GameObject odabranog lika
-    /// </returns>
-    public GameObject ReturnCurrentPlayer()
-    {
-        return currentPlayer;
     }
 }

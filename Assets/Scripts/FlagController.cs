@@ -54,7 +54,7 @@ public class FlagController : MonoBehaviour
     void Update()
     {
         //if (ProgressBar.activeSelf && ProgressBar.GetComponent<Slider>().value <= 1)
-           // ProgressBar.GetComponent<Slider>().value = GameObject.FindGameObjectWithTag("Player").transform.position.x / transform.position.x;
+        // ProgressBar.GetComponent<Slider>().value = GameObject.FindGameObjectWithTag("Player").transform.position.x / transform.position.x;
     }
     /// <summary>
     /// Funkcija koja provjerava da li je završena trka te zove funkciju za dohvacanje i upisivanje podataka lokalno
@@ -213,21 +213,5 @@ public class FlagController : MonoBehaviour
         {
             Leaderboard.GetComponent<Text>().text = "GRESKA." + ex.Message;
         }
-
-
-
-    }
-    IEnumerator Countdown()
-    {
-        CountdownText.GetComponent<Text>().text = "";
-        yield return new WaitForSeconds(1);
-        CountdownText.GetComponent<Text>().text = "3";
-        yield return new WaitForSeconds(1);
-        CountdownText.GetComponent<Text>().text = "2";
-        yield return new WaitForSeconds(1);
-        CountdownText.GetComponent<Text>().text = "1";
-        yield return new WaitForSeconds(1);
-        StartGamePanel.SetActive(false);
-        runTime.Start();
     }
 }

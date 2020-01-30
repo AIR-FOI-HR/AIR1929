@@ -15,7 +15,6 @@ public class RunMonitor : MonoBehaviourPunCallbacks
     public bool raceStarted = false;
     int runnerIndex;
 
-
     private void Start()
     {
         countdownText.SetActive(false);

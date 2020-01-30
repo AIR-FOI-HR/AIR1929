@@ -18,24 +18,17 @@ public class PlayerControls : MonoBehaviour
     bool jump = false;
     bool crouch = false;
     bool raceEnded = false;
-    bool raceStarted = false;
     GameObject runMonitor;
-
-
-
 
     /// <summary>
     /// Prva funkcija koja se pokrece
     /// </summary>
     void Start()
     {
-        //DontDestroyOnLoad(gameObject);
         currentSpeed = 0;
         currentAcceleration = 0;
         rigidbody2d = GetComponent<Rigidbody2D>();
-        StartCoroutine(Countdown());
         runMonitor = GameObject.Find("RunMonitor");
-
     }
 
     /// <summary>
@@ -43,15 +36,22 @@ public class PlayerControls : MonoBehaviour
     /// </summary>
     public void onJumpClick()
     {
-        jump = true;
-        animator.SetBool("Jump", true);
+        if (PlayerPrefs.HasKey("Controls") && PlayerPrefs.GetFloat("Controls") == 0.0f)
+        {
+            jump = true;
+            animator.SetBool("Jump", true);
+        }
     }
+
     /// <summary>
     /// Funkcija koja se pokreće na android tipku
     /// </summary>
     public void onSlideClick()
     {
-        StartCoroutine(SlideAnimation());
+        if (PlayerPrefs.HasKey("Controls") && PlayerPrefs.GetFloat("Controls") == 0.0f)
+        {
+            StartCoroutine(SlideAnimation());
+        }
     }
 
     /// <summary>
@@ -61,7 +61,6 @@ public class PlayerControls : MonoBehaviour
     {
         if (runMonitor.GetComponent<RunMonitor>().raceStarted)
         {
-            Debug.Log("Unutra smo");
             currentAcceleration = acceleration;
         }
 
@@ -78,8 +77,12 @@ public class PlayerControls : MonoBehaviour
                 currentSpeed = maxSpeed;
             }
             animator.SetFloat("Speed", currentSpeed);
+
             //For Android
-            //SwipeCheck();
+            if (PlayerPrefs.HasKey("Controls") && PlayerPrefs.GetFloat("Controls") == 1.0f)
+            {
+                SwipeCheck();
+            }
 
             //For Computer
             if (Input.GetButtonDown("Jump") == true)
@@ -105,6 +108,7 @@ public class PlayerControls : MonoBehaviour
     {
         animator.SetBool("Jump", false);
     }
+
     /// <summary>
     /// Funkcija koja se poziva pritiskom tipke na tipkovnici (slide-anje)
     /// </summary>
@@ -146,7 +150,10 @@ public class PlayerControls : MonoBehaviour
     /// <param name="collider"></param>
     void OnTriggerEnter2D(Collider2D collider)
     {
-
+        if (collider.gameObject.tag == "Player")
+        {
+            Physics2D.IgnoreCollision(collider, GetComponent<Collider2D>());
+        }
         if (collider.gameObject.tag == "FlagController")
         {
             raceEnded = true;
@@ -179,18 +186,6 @@ public class PlayerControls : MonoBehaviour
 
     }
 
-    /// <summary>
-    /// Odbrojavanje prilikom pocetka utrke
-    /// </summary>
-    /// <returns></returns>
-    IEnumerator Countdown()
-    {
-        yield return new WaitForSeconds(1);
-        yield return new WaitForSeconds(1);
-        yield return new WaitForSeconds(1);
-        yield return new WaitForSeconds(1);
-        //currentAcceleration = acceleration;
-    }
     /// <summary>
     /// Odredivanje trajanja slide-a
     /// </summary>

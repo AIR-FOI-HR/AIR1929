@@ -2,15 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.IO;
 
 public class Settings : MonoBehaviour
 {
-    public Slider volumeSlider;
+    public Slider volumeSlider, controlSlider;
     public InputField nameField;
     public GameObject mute, unmute;
 
     void Start()
     {
+        if (PlayerPrefs.HasKey("Controls"))
+        {
+            controlSlider.value = PlayerPrefs.GetFloat("Controls");
+        }
         volumeSlider.value = volumeSlider.maxValue;
         mute.SetActive(false);
         unmute.SetActive(true);
@@ -48,5 +53,10 @@ public class Settings : MonoBehaviour
     {
         //ovdje spremaš ime u datoteku
         // nameField.text   -> ovo spremaš
+    }
+
+    public void ControlChange(float value)
+    {
+        PlayerPrefs.SetFloat("Controls", controlSlider.value);
     }
 }

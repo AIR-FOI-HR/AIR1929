@@ -55,9 +55,6 @@ public class GameModeSelectionController : MonoBehaviourPunCallbacks
             PhotonNetwork.GameVersion = gameVersion;
             PhotonNetwork.ConnectUsingSettings();
         }
-
-        /*playerSelectionController.GetComponent<PlayerSelectionController>().ReturnCurrentPlayer().SetActive(true);
-        SceneManager.LoadScene(maps[currentId]);*/
     }
 
     /// <summary>
@@ -65,7 +62,6 @@ public class GameModeSelectionController : MonoBehaviourPunCallbacks
     /// </summary>
     public void PlaySingleplayerGame()
     {
-        playerSelectionController.GetComponent<PlayerSelectionController>().ReturnCurrentPlayer().SetActive(true);
         SceneManager.LoadScene(maps[currentId]);
     }
 
