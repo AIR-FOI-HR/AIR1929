@@ -15,7 +15,8 @@ public class AchievementMaster : MonoBehaviour {
 		achivements = new List<IAchievement>() {
 			gameObject.AddComponent<FinishWinterRun>(),
 			gameObject.AddComponent<FinishSantasMarathoner>(),
-			gameObject.AddComponent<FinishSampleMap>()
+			gameObject.AddComponent<FinishSampleMap>(),
+			gameObject.AddComponent<WinterRunJumper>()
 		};
 
 		GetUnachievedAndEligibleCollection();
@@ -51,13 +52,11 @@ public class AchievementMaster : MonoBehaviour {
 		foreach (var ach in achivements) {
 			ach.Initialize();
 			if (ach.Achieved || !ach.EligibleScenes.Contains<string>(SceneManager.GetActiveScene().name)) achievedOrNotEligible.Add(ach);
-			Debug.Log("SET: " + ach.Achieved + "|" + !ach.EligibleScenes.Contains<string>(SceneManager.GetActiveScene().name));
 		}
 		achivements = achivements.Except(achievedOrNotEligible).ToList();
 	}
 
 	void DistributeAchivements() {
-		Debug.Log("OVO: "+achivements.Count);
 		foreach(var ach in achivements) {
 			try {
 				var comp = GameObject.Find(ach.TargetObjectName);

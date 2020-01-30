@@ -8,15 +8,26 @@ public class WinterRunJumper : MonoBehaviour, IAchievement {
 	public Sprite ImageAchieved { get; set; }
 	public Sprite ImageNotAchieved { get; set; }
 	public bool Achieved { get; set; }
-	public string TargetObjectName { get; set; } = "FemaleNinja";
+	public string TargetObjectName { get; set; } = "FemaleNinja(Clone)";
 	public string[] EligibleScenes { get; set; } = { "WinterRun (Map)" };
 
+	int jumps = 0;
 	public void Initialize() {
 		if (PPAchivements.LoadAchievement(Name) < 15) {
 			Achieved = false;
+			return;
 		}
 		else Achieved = true;
 	}
 
-	
+	void Start() {
+		if (gameObject.name != TargetObjectName) enabled = false;
+	}
+
+	void FixedUpdate() {
+		if (Input.GetButtonDown("Jump") == true) {
+			if (++jumps <= 15) PPAchivements.UpdateAchivement(Name, jumps);
+			if (jumps == 15) Debug.Log("You got \"" + Name + "\" achievement!");
+		}
+	}
 }
