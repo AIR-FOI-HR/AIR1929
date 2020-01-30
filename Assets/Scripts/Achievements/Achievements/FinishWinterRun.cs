@@ -12,8 +12,8 @@ public class FinishWinterRun : MonoBehaviour, IAchievement {
 
 
 	public void Initialize() {
-		if (PPAchivements.LoadAchievement(Name) == 0) Achieved = false;
-		else Achieved = true;
+		if (PPAchivements.LoadAchievement(Name) == 1) Achieved = true;
+		else Achieved = false;
 	}
 
 	bool triggered = false;

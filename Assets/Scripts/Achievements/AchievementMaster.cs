@@ -18,31 +18,50 @@ public class AchievementMaster : MonoBehaviour {
 			gameObject.AddComponent<FinishSampleMap>()
 		};
 
-		GetUnachievedCollection();
+		GetUnachievedAndEligibleCollection();
 
 		SceneManager.sceneLoaded += OnSceneLoaded;
 	}
 
+	void Update() {
+		if (Input.GetKeyDown("x")) {
+			var comps = GetComponents<IAchievement>();
+			foreach(var comp in comps) {
+				PPAchivements.DeleteAchievement(comp.Name);
+			}
+		}
+	}
+
+	void RebuildAchivementsList() {
+		achivements = new List<IAchievement>();
+		var comps = GetComponents<IAchievement>();
+		foreach(var comp in comps) {
+			achivements.Add(comp);
+		}
+	}
+
 	void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
-		GetUnachievedCollection();
+		RebuildAchivementsList();
+		GetUnachievedAndEligibleCollection();
 		DistributeAchivements();
 	}
 
-	void GetUnachievedCollection() {
-		List<IAchievement> achieved = new List<IAchievement>();
+	void GetUnachievedAndEligibleCollection() {
+		List<IAchievement> achievedOrNotEligible = new List<IAchievement>();
 		foreach (var ach in achivements) {
 			ach.Initialize();
-			if (ach.Achieved) achieved.Add(ach);
+			if (ach.Achieved || !ach.EligibleScenes.Contains<string>(SceneManager.GetActiveScene().name)) achievedOrNotEligible.Add(ach);
+			Debug.Log("SET: " + ach.Achieved + "|" + !ach.EligibleScenes.Contains<string>(SceneManager.GetActiveScene().name));
 		}
-		achivements = achivements.Except(achieved).ToList();
+		achivements = achivements.Except(achievedOrNotEligible).ToList();
 	}
 
 	void DistributeAchivements() {
+		Debug.Log("OVO: "+achivements.Count);
 		foreach(var ach in achivements) {
 			try {
 				var comp = GameObject.Find(ach.TargetObjectName);
-				var a = comp.AddComponent(ach.GetType());
-				comp.GetComponent(ach.GetType());
+				comp.AddComponent(ach.GetType());
 			}
 			catch { 
 				Debug.Log(ach.TargetObjectName + " not Found!");

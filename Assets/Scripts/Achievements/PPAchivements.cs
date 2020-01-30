@@ -11,4 +11,8 @@ public static class PPAchivements {
 	public static int LoadAchievement(string name) {
 		return PlayerPrefs.GetInt(name);
 	}
+
+	public static void DeleteAchievement(string name) {
+		PlayerPrefs.DeleteKey(name);
+	}
 }

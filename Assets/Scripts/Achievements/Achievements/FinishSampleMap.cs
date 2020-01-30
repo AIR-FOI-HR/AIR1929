@@ -12,10 +12,10 @@ public class FinishSampleMap : MonoBehaviour, IAchievement {
 	public string[] EligibleScenes { get; set; } = { "SampleScene" };
 
 	public void Initialize() {
-		if (PPAchivements.LoadAchievement(Name) == 0) {
-			Achieved = false;
+		if (PPAchivements.LoadAchievement(Name) == 1) {
+			Achieved = true;
 		}
-		else Achieved = true;
+		else Achieved = false;
 	}
 
 	bool triggered = false;

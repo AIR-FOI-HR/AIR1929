@@ -8,7 +8,7 @@ TagManager:
   - FlagController
   - Shield
   - Projectile
-  - WinterRunFlag
+  - Achievement
   layers:
   - Default
   - TransparentFX
