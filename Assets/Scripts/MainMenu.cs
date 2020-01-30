@@ -33,4 +33,9 @@ public class MainMenu : MonoBehaviour
         choosePlayer.SetActive(false);
         chooseGameMode.SetActive(false);
     }
+
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
 }
