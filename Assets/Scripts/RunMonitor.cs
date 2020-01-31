@@ -19,13 +19,13 @@ public class RunMonitor : MonoBehaviourPunCallbacks
     {
         countdownText.SetActive(false);
         runnerIndex = PlayerPrefs.GetInt("PlayerIndex");
-        GameObject pRunner = null;
-
+        GameObject runner = null;
+        startRaceButton.SetActive(false);
         if (PhotonNetwork.IsConnected)
         {
             if (NetworkedPlayer.localPlayerInstance == null)
             {
-                pRunner = PhotonNetwork.Instantiate(crazyRunnerPrefabs[runnerIndex].name, new Vector2(0, 2), Quaternion.identity, 0);
+                runner = PhotonNetwork.Instantiate(crazyRunnerPrefabs[runnerIndex].name, new Vector2(0, 2), Quaternion.identity, 0);
             }
             if (PhotonNetwork.IsMasterClient)
             {
@@ -38,13 +38,14 @@ public class RunMonitor : MonoBehaviourPunCallbacks
         }
         else
         {
-            pRunner = Instantiate(crazyRunnerPrefabs[runnerIndex]);
-            pRunner.transform.position = new Vector2(0, 4);
+            runner = Instantiate(crazyRunnerPrefabs[runnerIndex]);
+            runner.transform.position = new Vector2(0, 4);
 
             StartGame();
         }
-        pRunner.GetComponent<PlayerControls>().enabled = true;
-        pRunner.GetComponent<CharacterController2D>().enabled = true;
+        runner.GetComponent<PlayerControls>().enabled = true;
+        runner.GetComponent<CharacterController2D>().enabled = true;
+        runner.transform.Find("Main Camera").gameObject.SetActive(true);
     }
 
     public void StartGame()

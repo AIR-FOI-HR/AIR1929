@@ -16,17 +16,13 @@ using Assets.Scripts;
 /// </summary>
 public class FlagController : MonoBehaviour
 {
-    public GameObject StartGamePanel;
     public GameObject EndRacePanel;
     private Stopwatch runTime = new Stopwatch();
-    public GameObject CountdownText;
     public GameObject RunTimeInformationText;
     public GameObject Leaderboard;
-    public GameObject ProgressBar;
     bool FirstCollision = false;
     public DateTime RunDate;
     public string CurrentMap;
-    public Slider volumeSlider;
     private string localPathForReadingWritingData;
 
     // Start is called before the first frame update
@@ -50,12 +46,6 @@ public class FlagController : MonoBehaviour
         //StartCoroutine(Countdown());
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        //if (ProgressBar.activeSelf && ProgressBar.GetComponent<Slider>().value <= 1)
-        // ProgressBar.GetComponent<Slider>().value = GameObject.FindGameObjectWithTag("Player").transform.position.x / transform.position.x;
-    }
     /// <summary>
     /// Funkcija koja provjerava da li je završena trka te zove funkciju za dohvacanje i upisivanje podataka lokalno
     /// </summary>

@@ -1063,7 +1063,7 @@ GameObject:
   - component: {fileID: 5136119225512072173}
   - component: {fileID: 1024432099636553679}
   m_Layer: 5
-  m_Name: ProggresBar
+  m_Name: ProgressBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

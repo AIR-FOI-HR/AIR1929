@@ -19,6 +19,7 @@ public class PlayerControls : MonoBehaviour
     bool crouch = false;
     bool raceEnded = false;
     GameObject runMonitor;
+    GameObject progressBar;
 
     /// <summary>
     /// Prva funkcija koja se pokrece
@@ -29,6 +30,7 @@ public class PlayerControls : MonoBehaviour
         currentAcceleration = 0;
         rigidbody2d = GetComponent<Rigidbody2D>();
         runMonitor = GameObject.Find("RunMonitor");
+        progressBar = GameObject.Find("ProgressBar");
     }
 
     /// <summary>
@@ -98,6 +100,8 @@ public class PlayerControls : MonoBehaviour
 
             rigidbody2d.velocity = new Vector2(currentSpeed, rigidbody2d.velocity.y);
 
+            if (progressBar.activeSelf && progressBar.GetComponent<Slider>().value <= 1)
+                progressBar.GetComponent<Slider>().value = transform.position.x / GameObject.FindGameObjectWithTag("FlagController").transform.position.x;
         }
     }
 

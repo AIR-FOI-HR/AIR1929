@@ -16,6 +16,10 @@ public class Settings : MonoBehaviour
         {
             controlSlider.value = PlayerPrefs.GetFloat("Controls");
         }
+        if (PlayerPrefs.HasKey("PlayerName"))
+        {
+            nameField.text = PlayerPrefs.GetString("PlayerName");
+        }
         volumeSlider.value = volumeSlider.maxValue;
         mute.SetActive(false);
         unmute.SetActive(true);
@@ -51,8 +55,7 @@ public class Settings : MonoBehaviour
 
     public void SavePlayerName()
     {
-        //ovdje spremaš ime u datoteku
-        // nameField.text   -> ovo spremaš
+        PlayerPrefs.SetString("PlayerName", nameField.text);
     }
 
     public void ControlChange(float value)

@@ -16,7 +16,7 @@ public class GameModeSelectionController : MonoBehaviourPunCallbacks
     public Image mapImage;
     int currentId = 0;
 
-    public string playerName = "TestName"; //pohrani ime iz datoteke
+    public string playerName;
     byte maxPlayersPerRoom = 2;
     bool isConnecting;
     public Text feedbackText;
@@ -29,7 +29,10 @@ public class GameModeSelectionController : MonoBehaviourPunCallbacks
     void Start()
     {
         //dohvati datoteku s informacijama igraca
-
+        if (PlayerPrefs.HasKey("PlayerName"))
+        {
+            playerName = PlayerPrefs.GetString("PlayerName");
+        }
 
         ShowMap();
     }
@@ -127,7 +130,7 @@ public class GameModeSelectionController : MonoBehaviourPunCallbacks
 
     public override void OnJoinRandomFailed(short returnCode, string message)
     {
-        feedbackText.text += "\nFailed to joi random room.";
+        feedbackText.text += "\nFailed to join random room.";
         PhotonNetwork.CreateRoom(null, new RoomOptions { MaxPlayers = this.maxPlayersPerRoom });
     }
 
