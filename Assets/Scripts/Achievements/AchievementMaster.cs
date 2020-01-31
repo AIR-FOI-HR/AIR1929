@@ -18,9 +18,10 @@ public class AchievementMaster : MonoBehaviour {
 			gameObject.AddComponent<FinishWinterRun>(),
 			gameObject.AddComponent<FinishSantasMarathoner>(),
 			gameObject.AddComponent<FinishSampleMap>(),
-			gameObject.AddComponent<WinterRunJumper>()
+			gameObject.AddComponent<WinterRunJumper>(),
+			//gameObject.AddComponent<TryTheProcedural>()
 		};
-		BuildAchDisplay();
+		if (SceneManager.GetActiveScene().name == "Achievements") BuildAchDisplay();
 		GetUnachievedAndEligibleCollection();
 		SceneManager.sceneLoaded += OnSceneLoaded;
 		
@@ -46,7 +47,7 @@ public class AchievementMaster : MonoBehaviour {
 	void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
 		RebuildAchivementsList();
 		GetUnachievedAndEligibleCollection();
-		if (SceneManager.GetActiveScene().name != "Achievements") BuildAchDisplay();//DistributeAchivements();
+		if (scene.name != "Achievements") DistributeAchivements();
 		else BuildAchDisplay();
 	}
 
