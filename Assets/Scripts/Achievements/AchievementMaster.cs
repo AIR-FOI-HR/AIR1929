@@ -8,6 +8,8 @@ using UnityEngine.SceneManagement;
 public class AchievementMaster : MonoBehaviour {
 
 	List<IAchievement> achivements;
+	public GameObject achPrefab;
+	public Sprite finSprite;
 	void Start()
     {
 		DontDestroyOnLoad(gameObject);
@@ -18,10 +20,10 @@ public class AchievementMaster : MonoBehaviour {
 			gameObject.AddComponent<FinishSampleMap>(),
 			gameObject.AddComponent<WinterRunJumper>()
 		};
-
+		BuildAchDisplay();
 		GetUnachievedAndEligibleCollection();
-
 		SceneManager.sceneLoaded += OnSceneLoaded;
+		
 	}
 
 	void Update() {
@@ -44,7 +46,8 @@ public class AchievementMaster : MonoBehaviour {
 	void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
 		RebuildAchivementsList();
 		GetUnachievedAndEligibleCollection();
-		DistributeAchivements();
+		if (SceneManager.GetActiveScene().name != "Achievements") BuildAchDisplay();//DistributeAchivements();
+		else BuildAchDisplay();
 	}
 
 	void GetUnachievedAndEligibleCollection() {
@@ -66,5 +69,23 @@ public class AchievementMaster : MonoBehaviour {
 				Debug.Log(ach.TargetObjectName + " not Found!");
 			}
 		}
+	}
+
+	void BuildAchDisplay() {
+		Debug.Log(achivements.Count);
+		var vertList = GameObject.Find("General");
+		foreach (var ach in achivements) {
+			ach.Initialize();
+			Debug.Log(ach.Achieved);
+			var prefo = Instantiate(achPrefab, vertList.transform);
+			if (ach.Achieved) {
+				prefo.GetComponent<UnityEngine.UI.Image>().sprite = finSprite;
+			}
+			prefo.transform.localScale = Vector3.one;
+			prefo.transform.Find("Title").GetComponent<UnityEngine.UI.Text>().text = ach.Name;
+			prefo.transform.Find("Description").GetComponent<UnityEngine.UI.Text>().text = ach.Description;
+			prefo.transform.Find("Image").GetComponent<UnityEngine.UI.Image>().sprite = Resources.Load<Sprite>("AchievenmentSprites/"+ach.Name);
+		}
+		
 	}
 }

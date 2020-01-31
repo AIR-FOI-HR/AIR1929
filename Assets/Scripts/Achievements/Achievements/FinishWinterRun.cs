@@ -2,7 +2,7 @@
 using UnityEngine.Events;
 
 public class FinishWinterRun : MonoBehaviour, IAchievement {
-	public string Name { get; set; } = "It's cold outside like your ex's heart.";
+	public string Name { get; set; } = "It's cold outside like your ex's heart";
 	public string Description { get; set; } = "Finish \"Winter Run\" map for the first time.";
 	public Sprite ImageAchieved { get; set; }
 	public Sprite ImageNotAchieved { get; set; }

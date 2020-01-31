@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 
 public class FinishSantasMarathoner : MonoBehaviour, IAchievement {
-	public string Name { get; set; } = "Christmas is over :(...";
+	public string Name { get; set; } = "Christmas is over";
 	public string Description { get; set; } = "Finish \"Santa's Marathoner\" map for the first time.";
 	public Sprite ImageAchieved { get ; set; }
 	public Sprite ImageNotAchieved { get; set; }
