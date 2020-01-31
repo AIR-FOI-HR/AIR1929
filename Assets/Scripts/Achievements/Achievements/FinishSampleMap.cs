@@ -5,8 +5,6 @@ using UnityEngine;
 public class FinishSampleMap : MonoBehaviour, IAchievement {
 	public string Name { get; set; } = "Alpha tester thorwback";
 	public string Description { get; set; } = "Finish \"Sample Map\" map for the first time.";
-	public Sprite ImageAchieved { get; set; }
-	public Sprite ImageNotAchieved { get; set; }
 	public bool Achieved { get; set; }
 	public string TargetObjectName { get; set; } = "SampleMapFlag";
 	public string[] EligibleScenes { get; set; } = { "SampleScene" };

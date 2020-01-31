@@ -4,8 +4,6 @@ using UnityEngine.Events;
 public class FinishWinterRun : MonoBehaviour, IAchievement {
 	public string Name { get; set; } = "It's cold outside like your ex's heart";
 	public string Description { get; set; } = "Finish \"Winter Run\" map for the first time.";
-	public Sprite ImageAchieved { get; set; }
-	public Sprite ImageNotAchieved { get; set; }
 	public bool Achieved { get; set; }
 	public string TargetObjectName { get; set; } = "WinterRunFlag";
 	public string[] EligibleScenes { get; set; } = { "WinterRun (Map)" };

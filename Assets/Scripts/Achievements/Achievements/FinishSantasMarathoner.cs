@@ -6,8 +6,6 @@ using UnityEngine.Events;
 public class FinishSantasMarathoner : MonoBehaviour, IAchievement {
 	public string Name { get; set; } = "Christmas is over";
 	public string Description { get; set; } = "Finish \"Santa's Marathoner\" map for the first time.";
-	public Sprite ImageAchieved { get ; set; }
-	public Sprite ImageNotAchieved { get; set; }
 	public bool Achieved { get; set; }
 	public string TargetObjectName { get; set; } = "SantasMarathonerFlag";
 	public string[] EligibleScenes { get; set; } = { "Santa'sMarathoner" };
