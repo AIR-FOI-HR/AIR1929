@@ -48,6 +48,15 @@ public class RunMonitor : MonoBehaviourPunCallbacks
         runner.transform.Find("Main Camera").gameObject.SetActive(true);
     }
 
+    public void BeginGame()
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            photonView.RPC("StartGame", RpcTarget.All, null);
+        }
+    }
+
+    [PunRPC]
     public void StartGame()
     {
         countdownText.SetActive(true);
