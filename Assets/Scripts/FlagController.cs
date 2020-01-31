@@ -27,7 +27,7 @@ public class FlagController : MonoBehaviour
     /// Funkcija koja provjerava da li je završena trka te zove funkciju za dohvacanje i upisivanje podataka lokalno
     /// </summary>
     /// <param name="collider"></param>
-    void OnTriggerEnter2D(Collider2D collider)
+    public void OnTriggerEnter2D(Collider2D collider)
     {
         
     }

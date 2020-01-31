@@ -788,7 +788,7 @@ PrefabInstance:
     - target: {fileID: 5854344771398964806, guid: 8f70ad1a8fe92fb4da608f53fb0c6261,
         type: 3}
       propertyPath: m_Name
-      value: RacingFlag
+      value: SampleMapFlag
       objectReference: {fileID: 0}
     - target: {fileID: 5854344771398964804, guid: 8f70ad1a8fe92fb4da608f53fb0c6261,
         type: 3}
