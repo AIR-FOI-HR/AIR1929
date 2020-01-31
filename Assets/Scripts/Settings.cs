@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Audio;
 using System.IO;
 
 public class Settings : MonoBehaviour
@@ -9,6 +10,7 @@ public class Settings : MonoBehaviour
     public Slider volumeSlider, controlSlider;
     public InputField nameField;
     public GameObject mute, unmute;
+    public AudioMixer mixer;
 
     void Start()
     {
@@ -27,7 +29,9 @@ public class Settings : MonoBehaviour
 
     public void VolumeChanged(float value)
     {
-        if (volumeSlider.value == 0)
+        mixer.SetFloat("MusicVol", Mathf.Log10(value) * 30);
+
+        if (volumeSlider.value <= 0.001)
         {
             mute.SetActive(true);
             unmute.SetActive(false);
@@ -43,7 +47,7 @@ public class Settings : MonoBehaviour
     {
         mute.SetActive(true);
         unmute.SetActive(false);
-        volumeSlider.value = 0;
+        volumeSlider.value = 0.0001f;
     }
 
     public void Unmute()

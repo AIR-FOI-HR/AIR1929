@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class GridManager : MonoBehaviour
 {
-    public int rows = 20;
+    public int rows = 22;
     public int cols = 100;
     public float tileSize = (float)1.28;
     public int numberOfRooms = 10;
@@ -21,8 +21,11 @@ public class GridManager : MonoBehaviour
     {
         Debug.Log("Start: " + System.DateTime.Now);
         grid = new GameObject[cols * numberOfRooms, rows];
+        
         GenerateMap(numberOfRooms);
-        CheckForTop(); // vrh pretvaramo u snijeg
+        CheckForTop(); 
+        CreateEndOfMap(numberOfRooms);
+
         Debug.Log("End: " + System.DateTime.Now);
     }
 
@@ -42,6 +45,8 @@ public class GridManager : MonoBehaviour
             GenerateObstacles(floorB, i);
             GenerateObstacles(floorC, i);
             GenerateObstacles(floorD, i);
+            GenerateTraps(i);
+            GeneratePowerUps(i);
         }
     }
 
@@ -81,6 +86,55 @@ public class GridManager : MonoBehaviour
     }
 
     /// <summary>
+    /// Generira zamke u toj sobi.
+    /// </summary>
+    /// <param name="room"></param>
+    private void GenerateTraps(int room)
+    {
+        for (int col = cols * room; col < (cols + cols * room); col++)
+        {
+            for (int row = 0; row < rows; row++)
+            {
+                if (RandomNumber(100) < chaos)
+                {
+                    GameObject go = GetNode(col, row);
+                    if (go.GetComponent<Node>().tileType == Node.TileType.empty &&
+                        (GetNode(col, row + 1).GetComponent<Node>().tileType == Node.TileType.dirt ||
+                        GetNode(col, row + 1).GetComponent<Node>().tileType == Node.TileType.snow))
+                    {
+                        if (!CheckForTraps(col, row, Node.TileType.trapSpikes))
+                        {
+                            CreateTile(col, row, Node.TileType.trapSpikes);
+                        }
+                    } 
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// Generiraju se pojačanja u toj sobi.
+    /// </summary>
+    /// <param name="room"></param>
+    private void GeneratePowerUps(int room)
+    {
+        for (int col = cols * room; col < (cols + cols * room); col++)
+        {
+            for (int row = 0; row < rows; row++)
+            {
+                if (RandomNumber(2500) < chaos)
+                {
+                    GameObject go = GetNode(col, row);
+                    if (go.GetComponent<Node>().tileType == Node.TileType.empty)
+                    {
+                        CreatePowerUp(col, row);
+                    }
+                }
+            }
+        }
+    }
+
+    /// <summary>
     /// Stvara se prepreka na tim kordinatama. Direction označuje s koje strane kata
     /// će se stvoriti prepreka.
     /// </summary>
@@ -103,7 +157,6 @@ public class GridManager : MonoBehaviour
                     {
                         int upCounter = 0;
                         currentRow -= 1;
-                        CreateTile(currentCol, currentRow, Node.TileType.dirt);
                         upCounter++;
                         for (int i = 0; i < RandomNumber(2, 4); i++)
                         {
@@ -148,7 +201,7 @@ public class GridManager : MonoBehaviour
 
                         currentRow += 1;
                         CreateTile(currentCol, currentRow, Node.TileType.dirt);
-                        if (RandomNumber(100) < 50)
+                        if (RandomNumber(100) < 50) // za šminku
                         {
                             //CreateTile(currentCol + 1, currentRow, Node.TileType.dirt);
                         }
@@ -164,6 +217,28 @@ public class GridManager : MonoBehaviour
                     }
                 }
             }
+        }
+    }
+
+    /// <summary>
+    /// Stvara se random power up na tim kordinatama.
+    /// </summary>
+    /// <param name="col"></param>
+    /// <param name="row"></param>
+    private void CreatePowerUp(int col, int row)
+    {
+        int broj = RandomNumber(1, 3);
+        switch (broj)
+        {
+            case 1:
+                CreateTile(col, row, Node.TileType.powerUpShield);
+                break;
+            case 2:
+                CreateTile(col, row, Node.TileType.powerUpMine);
+                break;
+            case 3:
+                CreateTile(col, row, Node.TileType.powerUpRocket);
+                break;
         }
     }
 
@@ -225,6 +300,38 @@ public class GridManager : MonoBehaviour
                 {
                     retVal = false;
                 }
+            }
+        }
+        return retVal;
+    }
+
+    /// <summary>
+    /// Vraća true ako postoje prepreke za postavljanje nove zamke.
+    /// </summary>
+    /// <param name="col"></param>
+    /// <param name="row"></param>
+    /// <param name="trapType"></param>
+    /// <returns></returns>
+    private bool CheckForTraps(int col, int row, Node.TileType trapType)
+    {
+        bool retVal = true;
+        int currentCol = col;
+        int currentRow = row;
+        if(trapType == Node.TileType.trapSpikes)
+        {
+            if (!CheckForTile(currentCol - 1, currentRow - 1) &&
+                !CheckForTile(currentCol + 0, currentRow - 1) &&
+                !CheckForTile(currentCol + 1, currentRow - 1) &&
+
+                !CheckForTile(currentCol - 1, currentRow - 2) &&
+                !CheckForTile(currentCol + 0, currentRow - 2) &&
+                !CheckForTile(currentCol + 1, currentRow - 2) &&
+
+                !CheckForTile(currentCol - 1, currentRow - 3) &&
+                !CheckForTile(currentCol + 0, currentRow - 3) &&
+                !CheckForTile(currentCol + 1, currentRow - 3))
+            {
+                retVal = false;
             }
         }
         return retVal;
@@ -433,6 +540,18 @@ public class GridManager : MonoBehaviour
     }
 
     /// <summary>
+    /// Vraća Vector2 poziciju odabranog čvora.
+    /// </summary>
+    /// <param name="col"></param>
+    /// <param name="row"></param>
+    /// <returns></returns>
+    public Vector2 GetPositionFromNode (float col, float row)
+    {
+        Vector2 position = new Vector2(col * tileSize, - row * tileSize);
+        return position;         
+    }
+
+    /// <summary>
     /// Generira na kojim će se mjestima nalaziti katovi.
     /// </summary>
     private void GenerateFloorDimensions()
@@ -467,6 +586,17 @@ public class GridManager : MonoBehaviour
     }
 
     /// <summary>
+    /// Postavlja oznaku za kraj levela.
+    /// </summary>
+    /// <param name="numberOfRooms"></param>
+    private void CreateEndOfMap (int numberOfRooms)
+    {
+        GameObject flag = (GameObject)Resources.Load("Flag");
+        flag.transform.position = GetPositionFromNode(numberOfRooms * cols, rows - 1);
+        flag = (GameObject)Instantiate(flag);
+    }
+
+    /// <summary>
     /// Generira nasumičan broj od min do max.
     /// </summary>
     /// <param name="min"></param>
@@ -474,7 +604,7 @@ public class GridManager : MonoBehaviour
     /// <returns>int</returns>
     public int RandomNumber(int min, int max)
     {
-        int number = rng.Next(min, max);
+        int number = rng.Next(min, max+1);
         return number;
     }
 
