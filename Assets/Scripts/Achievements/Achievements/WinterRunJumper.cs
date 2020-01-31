@@ -6,7 +6,7 @@ public class WinterRunJumper : MonoBehaviour, IAchievement {
 	public string Name { get; set; } = "The floor is lava! But cold";
 	public string Description { get; set; } = "Jump 15 times while playing on \"Winter Run\" map.";
 	public bool Achieved { get; set; }
-	public string TargetObjectName { get; set; } = "FemaleNinja(Clone)";
+	public string TargetObjectName { get; set; }
 	public string[] EligibleScenes { get; set; } = { "WinterRun (Map)" };
 
 	int jumps = 0;
@@ -19,6 +19,7 @@ public class WinterRunJumper : MonoBehaviour, IAchievement {
 	}
 
 	void Start() {
+		TargetObjectName = PlayerPrefs.GetString("PlayerName");
 		if (gameObject.name != TargetObjectName) enabled = false;
 	}
 
