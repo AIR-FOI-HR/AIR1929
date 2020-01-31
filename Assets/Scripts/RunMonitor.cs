@@ -68,6 +68,5 @@ public class RunMonitor : MonoBehaviourPunCallbacks
         yield return new WaitForSeconds(1);
         countdownText.SetActive(false);
         raceStarted = true;
-        //runTime.Start();
     }
 }
