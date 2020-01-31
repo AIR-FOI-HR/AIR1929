@@ -34,6 +34,11 @@ public class MainMenu : MonoBehaviour
         chooseGameMode.SetActive(false);
     }
 
+    public void OpenAchievements()
+    {
+        SceneManager.LoadScene("Achievements");
+    }
+
     public void QuitGame()
     {
         Application.Quit();
