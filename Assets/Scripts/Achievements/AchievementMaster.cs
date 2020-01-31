@@ -22,14 +22,9 @@ public class AchievementMaster : MonoBehaviour
             gameObject.AddComponent<WinterRunJumper>(),
 			//gameObject.AddComponent<TryTheProcedural>()
 		};
-        if (SceneManager.GetActiveScene().name == "Achievements")
-        {
-            Debug.Log("auto");
-            BuildAchDisplay();
-        }
+        
         GetUnachievedAndEligibleCollection();
         SceneManager.sceneLoaded += OnSceneLoaded;
-
     }
 
     void Update()
@@ -56,6 +51,13 @@ public class AchievementMaster : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        if (SceneManager.GetActiveScene().name == "Achievements")
+        {
+            RebuildAchivementsList();
+            Debug.Log(achivements.Count);
+            BuildAchDisplay();
+            return;
+        }
         RebuildAchivementsList();
         GetUnachievedAndEligibleCollection();
         if (scene.name != "Achievements") DistributeAchivements();

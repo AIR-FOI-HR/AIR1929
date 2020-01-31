@@ -7,7 +7,7 @@ public class FinishSampleMap : MonoBehaviour, IAchievement {
 	public string Description { get; set; } = "Finish \"Sample Map\" map for the first time.";
 	public bool Achieved { get; set; }
 	public string TargetObjectName { get; set; } = "SampleMapFlag";
-	public string[] EligibleScenes { get; set; } = { "SampleScene" };
+	public string[] EligibleScenes { get; set; } = { "SampleMap" };
 
 	public void Initialize() {
 		if (PPAchivements.LoadAchievement(Name) == 1) {
