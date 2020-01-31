@@ -13,7 +13,8 @@ public class AchievementMaster : MonoBehaviour
     public Sprite finSprite;
     void Start()
     {
-        DontDestroyOnLoad(gameObject);
+        var cnt = FindObjectsOfType<AchievementMaster>();
+        if (cnt.Length == 1) DontDestroyOnLoad(gameObject);
 
         achivements = new List<IAchievement>() {
             gameObject.AddComponent<FinishWinterRun>(),
@@ -22,7 +23,7 @@ public class AchievementMaster : MonoBehaviour
             gameObject.AddComponent<WinterRunJumper>(),
 			//gameObject.AddComponent<TryTheProcedural>()
 		};
-        
+
         GetUnachievedAndEligibleCollection();
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
