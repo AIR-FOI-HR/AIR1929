@@ -3,15 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Audio;
+using System.IO;
 
 public class Settings : MonoBehaviour
 {
-    public Slider volumeSlider;
+    public Slider volumeSlider, controlSlider;
+    public InputField nameField;
     public GameObject mute, unmute;
     public AudioMixer mixer;
 
     void Start()
     {
+        if (PlayerPrefs.HasKey("Controls"))
+        {
+            controlSlider.value = PlayerPrefs.GetFloat("Controls");
+        }
+        if (PlayerPrefs.HasKey("PlayerName"))
+        {
+            nameField.text = PlayerPrefs.GetString("PlayerName");
+        }
         volumeSlider.value = volumeSlider.maxValue;
         mute.SetActive(false);
         unmute.SetActive(true);
@@ -45,5 +55,15 @@ public class Settings : MonoBehaviour
         mute.SetActive(false);
         unmute.SetActive(true);
         volumeSlider.value = 1;
+    }
+
+    public void SavePlayerName()
+    {
+        PlayerPrefs.SetString("PlayerName", nameField.text);
+    }
+
+    public void ControlChange(float value)
+    {
+        PlayerPrefs.SetFloat("Controls", controlSlider.value);
     }
 }
