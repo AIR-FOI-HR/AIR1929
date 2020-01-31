@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1234444165068468569}
   - component: {fileID: 1381390525140711419}
   m_Layer: 0
-  m_Name: Shield
+  m_Name: PowerUpShield
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -111,8 +111,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b67fc3444a3e2341b72b0cf82c6e99f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  shieldTimer: 10
   itemButton: {fileID: 0}
   shield: {fileID: 6968296235652510514, guid: 00b334c84a095a24f9b32db343910260, type: 3}
+  shieldSound: {fileID: 8300000, guid: 1972cf2ab40cf854a892f5d5f508a516, type: 3}
 --- !u!114 &1381390525140711419
 MonoBehaviour:
   m_ObjectHideFlags: 0
