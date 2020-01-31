@@ -6,10 +6,13 @@ using UnityEngine.SceneManagement;
 
 public class PowerUps : MonoBehaviour
 {
+    public int shieldTimer = 10;
+
     private Inventory inventory;
     public GameObject itemButton;
     public GameObject shield;
     private Transform player;
+    public AudioClip shieldSound;
 
     private void Start()
     {
@@ -83,11 +86,16 @@ public class PowerUps : MonoBehaviour
         }
         
     }
-
     private void SpawnShield()
     {
         GameObject newShield = Instantiate(shield, player.position, Quaternion.identity);
         newShield.transform.SetParent(player);
-        Destroy(newShield,5);
+        PlaySound(shieldSound);
+        Destroy(newShield,shieldTimer);
+    }
+
+    public void PlaySound(AudioClip audio)
+    {
+        AudioSource.PlayClipAtPoint(audio, player.position);
     }
 }

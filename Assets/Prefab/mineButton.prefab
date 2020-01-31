@@ -170,3 +170,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   trigger: {fileID: 669480150725884471}
+  explosionSound: {fileID: 8300000, guid: d373049e71030f546ba576d741b37034, type: 3}

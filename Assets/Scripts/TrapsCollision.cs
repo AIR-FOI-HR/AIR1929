@@ -6,6 +6,7 @@ using UnityEngine;
 public class TrapsCollision : MonoBehaviour
 {
     public GameObject trigger;
+    public AudioClip explosionSound;
     void OnTriggerEnter2D(Collider2D other)
     {
 

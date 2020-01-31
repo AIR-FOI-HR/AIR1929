@@ -154,6 +154,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   trigger: {fileID: 1336642255040098875}
+  explosionSound: {fileID: 8300000, guid: d373049e71030f546ba576d741b37034, type: 3}
 --- !u!61 &4364689839597186107
 BoxCollider2D:
   m_ObjectHideFlags: 0
