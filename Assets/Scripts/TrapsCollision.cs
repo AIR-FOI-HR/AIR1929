@@ -6,6 +6,7 @@ using UnityEngine;
 public class TrapsCollision : MonoBehaviour
 {
     public GameObject trigger;
+    public AudioClip explosionSound;
     void OnTriggerEnter2D(Collider2D other)
     {
 
@@ -32,6 +33,7 @@ public class TrapsCollision : MonoBehaviour
         if (flag)
         {
             other.gameObject.GetComponent<PlayerControls>().currentSpeed = 0;
+            other.gameObject.GetComponent<Rigidbody2D>().AddForce(new Vector2(0, 1));
         }
         Destroy(trigger);
     }

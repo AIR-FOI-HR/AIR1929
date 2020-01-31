@@ -2,13 +2,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PowerUps : MonoBehaviour
 {
+    public int shieldTimer = 10;
+
     private Inventory inventory;
     public GameObject itemButton;
     public GameObject shield;
     private Transform player;
+    public AudioClip shieldSound;
 
     private void Start()
     {
@@ -27,34 +31,71 @@ public class PowerUps : MonoBehaviour
 
     private void PickUp()
     {
-        
-        if (gameObject.name== "powerup_collectable" || gameObject.name == "powerup_collectable_rocket")
+
+        if (SceneManager.GetActiveScene().name == "ProceduralMap")
         {
-            for (int i = 0; i < inventory.slots.Length; i++)
+            if (gameObject.name == "powerup_collectable" || gameObject.name == "powerup_collectable_rocket" ||
+                gameObject.GetComponent<Node>().tileType == Node.TileType.powerUpMine ||
+                gameObject.GetComponent<Node>().tileType == Node.TileType.powerUpRocket)
             {
-                if (inventory.isFull[i] == false)
+                for (int i = 0; i < inventory.slots.Length; i++)
                 {
-                    inventory.isFull[i] = true;
-                    Debug.Log("Dodano u inventory");
-                    Instantiate(itemButton, inventory.slots[i].transform,false);
-                    Destroy(gameObject);
-                    break;
+                    if (inventory.isFull[i] == false)
+                    {
+                        inventory.isFull[i] = true;
+                        Debug.Log("Dodano u inventory");
+                        Instantiate(itemButton, inventory.slots[i].transform, false);
+                        Destroy(gameObject);
+                        break;
+                    }
                 }
             }
+
+            if (gameObject.name == "powerup" ||
+                gameObject.GetComponent<Node>().tileType == Node.TileType.powerUpShield)
+            {
+                Debug.Log("Pokupljeno");
+                SpawnShield();
+                Destroy(gameObject);
+            }
         }
-        if (gameObject.name == "powerup")
+        else
         {
-            Debug.Log("Pokupljeno");
-            SpawnShield();
-            Destroy(gameObject);
+            if (gameObject.name == "powerup_collectable" || gameObject.name == "powerup_collectable_rocket")
+            {
+                for (int i = 0; i < inventory.slots.Length; i++)
+                {
+                    if (inventory.isFull[i] == false)
+                    {
+                        inventory.isFull[i] = true;
+                        Debug.Log("Dodano u inventory");
+                        Instantiate(itemButton, inventory.slots[i].transform, false);
+                        Destroy(gameObject);
+                        break;
+                    }
+                }
+            }
+
+            if (gameObject.name == "powerup")
+            {
+                Debug.Log("Pokupljeno");
+                SpawnShield();
+                Destroy(gameObject);
+            }
+
         }
         
     }
-
     private void SpawnShield()
     {
         GameObject newShield = Instantiate(shield, player.position, Quaternion.identity);
         newShield.transform.SetParent(player);
-        Destroy(newShield,5);
+        PlaySound(shieldSound);
+        Destroy(newShield,shieldTimer);
+    }
+
+    public void PlaySound(AudioClip audio)
+    {
+        AudioSource.PlayClipAtPoint(audio, player.position);
     }
 }

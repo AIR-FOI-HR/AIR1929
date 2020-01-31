@@ -7,6 +7,18 @@ public class MainMenu : MonoBehaviour
 {
     public GameObject mainMenu, settings, choosePlayer, chooseGameMode, playSelectionController;
 
+    void Start()
+    {
+        if (!PlayerPrefs.HasKey("Controls"))
+        {
+            PlayerPrefs.SetFloat("Controls", 0.0f);
+        }
+        if (!PlayerPrefs.HasKey("PlayerName"))
+        {
+            PlayerPrefs.SetString("PlayerName", "Guest" + Random.Range(1000, 9999).ToString());
+        }
+    }
+
     public void OpenSettings()
     {
         settings.SetActive(true);
@@ -32,5 +44,15 @@ public class MainMenu : MonoBehaviour
         settings.SetActive(false);
         choosePlayer.SetActive(false);
         chooseGameMode.SetActive(false);
+    }
+
+    public void OpenAchievements()
+    {
+        SceneManager.LoadScene("Achievements");
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
     }
 }

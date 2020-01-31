@@ -18,17 +18,48 @@ public class TrapKillChar : MonoBehaviour, IInteractable<Object>{
 		return null;
 	}
 
-	private void OnTriggerEnter2D(Collider2D collision) {
-		if (!triggered) {
-			triggered = true;
-			Debug.Log("TRAP HIT!");
-		}
-	}
+	private void OnTriggerEnter2D(Collider2D other) {
+        if (!triggered)
+        {
+            triggered = true;
+            Transform[] children = GameObject.FindGameObjectWithTag("Player").GetComponentsInChildren<Transform>();
+            bool flag = true;
+            foreach (var item in children)
+            {
+                if (item.CompareTag("Shield"))
+                {
+                    Destroy(item.gameObject);
+                    flag = false;
+                    break;
+                }
+            }
+            if (flag)
+            {
+                other.gameObject.GetComponent<PlayerControls>().currentSpeed = 0;
+                other.gameObject.GetComponent<Rigidbody2D>().AddForce(Vector2.up * 20, ForceMode2D.Impulse);
+            }
+        }
+    }
 
-	private void OnCollisionEnter2D(Collision2D collision) {
+	private void OnCollisionEnter2D(Collision2D other) {
 		if (!triggered) {
 			triggered = true;
-			Debug.Log("TRAP HIT!");
+            Transform[] children = GameObject.FindGameObjectWithTag("Player").GetComponentsInChildren<Transform>();
+            bool flag = true;
+            foreach (var item in children)
+            {
+                if (item.CompareTag("Shield"))
+                {
+                    Destroy(item.gameObject);
+                    flag = false;
+                    break;
+                }
+            }
+            if (flag)
+            {
+                other.gameObject.GetComponent<PlayerControls>().currentSpeed = 0;
+                other.gameObject.GetComponent<Rigidbody2D>().AddForce(Vector2.up * 20, ForceMode2D.Impulse);
+            }  
 		}
 	}
 }
